@@ -4,11 +4,11 @@
     <link rel="stylesheet" href="/css/home.css">
 @stop
 
-@section('pageTitle', 'Customer\'s Page')
+@section('pageTitle', 'Driver\'s Page')
 
 @section('content')
     <div class="heading">
-        <h1>Customers Page</h1>
+        <h1>Driver's Page</h1>
     </div>
     <table>
         <tr>

@@ -3,8 +3,8 @@
         <a href="/"><img src="/images/musical-note.png" alt=""></a>
     </div>
     <div class="nav-right">
-        <a href="/">Customer</a>
-        <a href="/">Driver</a>
+        <a href="/customers">Customer</a>
+        <a href="/drivers">Driver</a>
     </div>
 </div>
 
