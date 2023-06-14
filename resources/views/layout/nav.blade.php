@@ -1,10 +1,10 @@
-
-<h1>Menu</h1>
-
-
-
 <div class="container">
-    <a href="#">Customers</a>
-    <a href="#">Delivery</a>
+    <div class="nav-left">
+        <a href="/"><img src="/images/musical-note.png" alt=""></a>
+    </div>
+    <div class="nav-right">
+        <a href="/">Customer</a>
+        <a href="/">Driver</a>
+    </div>
 </div>
 

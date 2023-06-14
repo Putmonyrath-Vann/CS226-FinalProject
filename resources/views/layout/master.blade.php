@@ -9,7 +9,7 @@
         @include('layout.nav')
     </nav>
 
-    <main>
+    <main class="center">
         @yield('content')
     </main>
         
