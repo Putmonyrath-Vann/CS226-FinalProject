@@ -9,4 +9,4 @@
 <link rel="stylesheet" href="/css/nav.css">
 <link rel="stylesheet" href="/css/main.css">
 
-<title>{Home}</title>
+<title>@yield('pageTitle')</title>

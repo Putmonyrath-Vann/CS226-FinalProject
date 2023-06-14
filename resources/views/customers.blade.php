@@ -4,7 +4,7 @@
     <link rel="stylesheet" href="/css/home.css">
 @stop
 
-@section('pageTitle', 'Home Page')
+@section('pageTitle', 'Customers Page')
 
 @section('content')
     <div class="heading">
