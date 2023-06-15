@@ -1,6 +1,6 @@
 <div class="container">
 
-    <p>Created by: Putmonyrath Vann</p>
+    <p>Team: PutKimLong Seng</p>
 
 
     <a href="#">Food Panda Co.Ltd 2023</a>
