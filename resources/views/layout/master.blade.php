@@ -9,10 +9,10 @@
         @include('layout.nav')
     </nav>
 
-    <main class="center">
+    <main class="center" style="min-height: 700px">
         @yield('content')
     </main>
-        
+
     <footer>
         @include('layout.footer')
     </footer>

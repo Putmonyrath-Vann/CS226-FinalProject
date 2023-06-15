@@ -1,0 +1,15 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.heading-signup {
+    @apply text-3xl font-bold text-center
+}
+
+.signup {
+    @apply text-xl mt-7 flex w-[25%] mx-auto items-center flex-wrap flex-col;
+}
+
+.personal-info {
+    @apply border-black border-2 my-2 rounded-lg w-full px-3 h-[2.5rem];
+}

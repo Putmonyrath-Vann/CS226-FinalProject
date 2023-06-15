@@ -26,7 +26,7 @@ nav .container .nav-right{
 
 nav .container .nav-right a{
     font-size: 2vw;
-    margin: auto;
+    /* margin: auto; */
     color: white;
     text-align: center;
     text-decoration: none;

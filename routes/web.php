@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -17,10 +18,18 @@ Route::get('/', function () {
     return view('index');
 });
 
-Route::get('/customers', function() {
-    return view('customers');
-});
+Route::view('/customers', 'customers');
+Route::view('/drivers', 'drivers');
+Route::view('/signup/customer', 'signupCustomer');
+Route::view('/signup/driver', 'signupDriver');
+Route::view('/login/customer', 'loginCustomer');
+Route::view('/login/driver', 'loginDriver');
+Route::view('/login', 'login');
 
-Route::get('/drivers', function() {
-    return view('drivers');
-});
+Route::post('signup/customer', [AuthController::class, 'customerSignUp']);
+Route::post('signup/driver', [AuthController::class, 'driverSignUp']);
+
+Route::post('login/customer', [AuthController::class, 'customerLogin']);
+Route::post('login/driver', [AuthController::class, 'driverLogin']);
+
+Route::post('logout', [AuthController::class, 'logout']);
