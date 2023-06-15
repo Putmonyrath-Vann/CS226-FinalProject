@@ -25,6 +25,7 @@ Route::view('/signup/driver', 'signupDriver');
 Route::view('/login/customer', 'loginCustomer');
 Route::view('/login/driver', 'loginDriver');
 Route::view('/login', 'login');
+Route::view('signup', 'signup');
 
 Route::post('signup/customer', [AuthController::class, 'customerSignUp']);
 Route::post('signup/driver', [AuthController::class, 'driverSignUp']);

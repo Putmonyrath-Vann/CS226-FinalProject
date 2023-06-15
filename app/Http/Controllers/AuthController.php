@@ -25,7 +25,6 @@ class AuthController extends Controller
             'pfp' => 'max:10240'
         ]);
 
-
         $buyer = new Buyer();
         $buyer->first_name = $request->input('first_name');
         $buyer->last_name = $request->input('last_name');
@@ -35,14 +34,13 @@ class AuthController extends Controller
         $buyer->gender = $request->input('gender');
 
         if ($request->has('pfp')) {
-            // dd($request->file('pfp'));
-            dd($request);
             $img_url = $this->uploadImage($request);
             $buyer->profile_img = $img_url;
         }
 
         $buyer->save();
-        $this->customerLogin($request);
+        Auth::guard('buyer')->login($buyer, true);
+        return redirect('/');
     }
 
     public function customerLogin(Request $request) {
@@ -87,13 +85,13 @@ class AuthController extends Controller
         $driver->gender = $request->input('gender');
 
         if ($request->has('pfp')) {
-            // dd($request->file('pfp'));
             $img_url = $this->uploadImage($request);
             $driver->profile_img = $img_url;
         }
 
         $driver->save();
-        $this->driverLogin($request);
+        Auth::guard('driver')->login($driver, true);
+        return redirect('/');
     }
 
     public function driverLogin(Request $request) {
@@ -126,7 +124,6 @@ class AuthController extends Controller
 
     public function uploadImage(Request $request) {
         $image = $request->file('pfp');
-        // dd($image);
         $client = new Client();
         $response = $client->request('POST', 'https://api.imgur.com/3/image', [
             'headers' => [
