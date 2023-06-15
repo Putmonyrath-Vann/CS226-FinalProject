@@ -41,9 +41,9 @@
             <input class="personal-info" type="text" name="phone_number"><br/>
         </div>
 
-        <div class="w-full">
-            <label for="gender">Gender:</label>
-            <select name="gender" class="personal-info">
+        <div class="w-full flex justify-between">
+            <label for="gender" class="gender">Gender:</label>
+            <select name="gender" class="personal-info" style="width: 8rem;">
                 <option value=1>Male</option>
                 <option value=0>Female</option>
             </select><br/>

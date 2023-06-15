@@ -657,6 +657,11 @@ video {
   padding-right: 0.75rem;
 }
 
+.gender{
+  margin: auto 0;
+  margin-right: 1rem;
+}
+
 .hover\:underline:hover {
   text-decoration-line: underline;
 }
