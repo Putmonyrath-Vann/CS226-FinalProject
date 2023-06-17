@@ -21,7 +21,7 @@ nav .container .nav-left a img{
 
 nav .container .nav-right{
     display: grid;
-    grid-template-columns: auto auto auto;
+    grid-template-columns: auto auto auto auto auto;
 }
 
 nav .container .nav-right a{
