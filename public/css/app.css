@@ -523,9 +523,6 @@ video {
 .mr-2 {
   margin-right: 0.5rem;
 }
-.mr-\[1rem\] {
-  margin-right: 1rem;
-}
 .mt-28 {
   margin-top: 7rem;
 }
@@ -538,8 +535,8 @@ video {
 .mt-6 {
   margin-top: 1.5rem;
 }
-.ml-3 {
-  margin-left: 0.75rem;
+.block {
+  display: block;
 }
 .flex {
   display: flex;
@@ -549,9 +546,6 @@ video {
 }
 .h-36 {
   height: 9rem;
-}
-.\!w-36 {
-  width: 9rem !important;
 }
 .w-1\/4 {
   width: 25%;
@@ -618,17 +612,13 @@ video {
 .leading-loose {
   line-height: 2;
 }
-.text-white {
-  --tw-text-opacity: 1;
-  color: rgb(255 255 255 / var(--tw-text-opacity));
-}
-.text-red-500 {
-  --tw-text-opacity: 1;
-  color: rgb(239 68 68 / var(--tw-text-opacity));
-}
 .text-\[red\] {
   --tw-text-opacity: 1;
   color: rgb(255 0 0 / var(--tw-text-opacity));
+}
+.text-white {
+  --tw-text-opacity: 1;
+  color: rgb(255 255 255 / var(--tw-text-opacity));
 }
 
 .heading-signup {

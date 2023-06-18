@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class HomePageCheck
+class RestaurantCheck
 {
     /**
      * Handle an incoming request.
@@ -17,15 +17,9 @@ class HomePageCheck
      */
     public function handle(Request $request, Closure $next)
     {
-        if (Auth::guard('buyer')->check()) {
-            return redirect('/customers');
+        if (!Auth::guard('restaurant')->check()) {
+            return redirect('/login/restaurant');
         }
-        else if (Auth::guard('driver')->check()) {
-            return redirect('/drivers');
-        }
-        else if (Auth::guard('restaurant')->check()) {
-            return redirect('/restaurant');
-        }
-        else return redirect('/login');
+        return $next($request);
     }
 }

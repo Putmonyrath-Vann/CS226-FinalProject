@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CategoryController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -28,9 +29,16 @@ Route::view('/login/driver', 'loginDriver')->middleware('checklogin');
 Route::view('/login/restaurant', 'loginRestaurant')->middleware('checklogin');
 Route::view('/login', 'login')->middleware('checklogin');
 Route::view('signup', 'signup')->middleware('checklogin');
+
 Route::prefix('admin')->group(function () {
     Route::view('/', 'admin.home');
     Route::view('/add-restaurant', 'admin.addRestaurant');
+});
+
+Route::prefix('/restaurant')->group(function() {
+   Route::view('/', 'restaurant.home');
+   Route::get('/categories', [CategoryController::class, 'getCategories']);
+   Route::view('/add/category', 'restaurant.addCategory');
 });
 
 Route::post('signup/customer', [AuthController::class, 'customerSignUp']);
