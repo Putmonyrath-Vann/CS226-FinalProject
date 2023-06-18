@@ -13,45 +13,69 @@
         @csrf
         <div class="w-full">
             <label for="first_name">First Name:</label>
+            @if ($errors->has('first_name'))
+                <p class="text-[red]">{{$errors->first('first_name')}}</p>
+            @endif
             <input class="personal-info" type="text" name="first_name"><br/>
         </div>
 
         <div class="w-full">
             <label for="last_name">Last Name:</label>
+            @if ($errors->has('last_name'))
+                <p class="text-[red]">{{$errors->first('last_name')}}</p>
+            @endif
             <input class="personal-info" type="text" name="last_name"><br/>
         </div>
 
         <div class="w-full">
             <label for="email">Email:</label>
+            @if ($errors->has('email'))
+                <p class="text-[red]">{{$errors->first('email')}}</p>
+            @endif
             <input class="personal-info" type="email" name="email"><br/>
         </div>
 
         <div class="w-full">
             <label for="password">Password:</label>
+            @if ($errors->has('password'))
+                <p class="text-[red]">{{$errors->first('password')}}</p>
+            @endif
             <input class="personal-info password" type="password" name="password"><br/>
         </div>
 
         <div class="w-full">
             <label for="confirm_password">Confirm Password:</label>
+            @if ($errors->has('confirm_password'))
+                <p class="text-[red]">{{$errors->first('confirm_password')}}</p>
+            @endif
             <input class="personal-info password" type="password" name="confirm_password"><br/>
         </div>
 
         <div class="w-full">
             <label for="phone_number">Phone Number:</label>
+            @if ($errors->has('phone_number'))
+                <p class="text-[red]">{{$errors->first('phone_number')}}</p>
+            @endif
             <input class="personal-info" type="text" name="phone_number"><br/>
         </div>
 
-        <div class="w-full flex items-center">
-            <label for="gender" class="mr-[1rem]">Gender:</label>
-            <select name="gender" class="personal-info !w-36">
+        <div class="w-full">
+            <label for="gender">Gender:</label>
+            @if ($errors->has('gender'))
+                <p class="text-[red]">{{$errors->first('gender')}}</p>
+            @endif
+            <select name="gender" class="personal-info">
                 <option value=1>Male</option>
                 <option value=0>Female</option>
             </select><br/>
         </div>
 
         <div class="w-full">
-            <label for="pfp">Profile Picture:</label>
-            <input class="personal-info !border-0" type="file" name="pfp"><br/>
+            <label for="profile_picture">Profile Picture:</label>
+            @if ($errors->has('profile_picture'))
+                <p class="text-[red]">{{$errors->first('profile_picture')}}</p>
+            @endif
+            <input class="personal-info !border-0" type="file" name="profile_picture"><br/>
         </div>
 
         <p class="self-start hover:underline cursor-pointer select-none" onclick="showPassword()" id="show">Show Password</p>

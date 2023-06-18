@@ -24,10 +24,18 @@
                 </div>
             </a>
         </div>
+
+        <div class="w-1/4">
+            <a href="/login/restaurant">
+                <div class="bg-blue-800 text-3xl w-full leading-loose text-white rounded-xl mt-4 h-36 flex items-center justify-center">
+                    <span>Log in For A Restaurant</span>
+                </div>
+            </a>
+        </div>
     </div>
 
     <div class="flex justify-center">
-        <a href="/login" class="text-3xl mt-28 text-center font-bold cursor-pointer hover:underline">Log in</a>
+        <a href="/signup" class="text-3xl mt-28 text-center font-bold cursor-pointer hover:underline">Sign Up</a>
     </div>
 </body>
 </html>

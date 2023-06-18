@@ -8,23 +8,15 @@
     <title>Sign Up</title>
 </head>
 <body class="my-4">
-    <h1 class="heading-signup">Sign Up As A Customer</h1>
-    <form class="signup" action="/signup/customer" method="POST" enctype="multipart/form-data">
+    <h1 class="heading-signup">Sign Up For A Restaurant</h1>
+    <form class="signup" action="/signup/restaurant" method="POST" enctype="multipart/form-data">
         @csrf
         <div class="w-full">
-            <label for="first_name">First Name:</label>
-            @if ($errors->has('first_name'))
-                <p class="text-[red]">{{$errors->first('first_name')}}</p>
+            <label for="name">Restaurant Name:</label>
+            @if ($errors->has('name'))
+                <p class="text-[red]">{{$errors->first('name')}}</p>
             @endif
-            <input class="personal-info" type="text" name="first_name"><br/>
-        </div>
-
-        <div class="w-full">
-            <label for="last_name">Last Name:</label>
-            @if ($errors->has('last_name'))
-                <p class="text-[red]">{{$errors->first('last_name')}}</p>
-            @endif
-            <input class="personal-info" type="text" name="last_name"><br/>
+            <input class="personal-info" type="text" name="name"><br/>
         </div>
 
         <div class="w-full">
@@ -60,22 +52,11 @@
         </div>
 
         <div class="w-full">
-            <label for="gender">Gender:</label>
-            @if ($errors->has('gender'))
-                <p class="text-[red]">{{$errors->first('gender')}}</p>
+            <label for="logo">Logo:</label>
+            @if ($errors->has('logo'))
+                <p class="text-[red]">{{$errors->first('logo')}}</p>
             @endif
-            <select name="gender" class="personal-info">
-                <option value=1>Male</option>
-                <option value=0>Female</option>
-            </select><br/>
-        </div>
-
-        <div class="w-full">
-            <label for="profile_picture">Profile Picture:</label>
-            @if ($errors->has('profile_picture'))
-                <p class="text-[red]">{{$errors->first('profile_picture')}}</p>
-            @endif
-            <input class="personal-info !border-0" type="file" name="profile_picture"><br/>
+            <input class="personal-info !border-0" type="file" name="logo"><br/>
         </div>
 
         <p class="self-start hover:underline cursor-pointer select-none" onclick="showPassword()" id="show">Show Password</p>

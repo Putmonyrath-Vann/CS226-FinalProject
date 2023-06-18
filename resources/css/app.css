@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 .heading-signup {
-    @apply text-3xl font-bold text-center
+    @apply text-3xl font-bold text-center capitalize
 }
 
 .signup {

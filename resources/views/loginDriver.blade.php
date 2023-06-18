@@ -14,10 +14,16 @@
 
         <div class="w-full">
             <label for="email">Email:</label>
+            @if ($errors->has('email'))
+                <p class="text-[red]">{{$errors->first('email')}}</p>
+            @endif
             <input class="personal-info" type="email" name="email"><br/>
         </div>
 
         <div class="w-full">
+            @if ($errors->has('password'))
+                <p class="text-[red]">{{$errors->first('password')}}</p>
+            @endif
             <label for="password">Password:</label>
             <input class="personal-info password" type="password" name="password"><br/>
         </div>

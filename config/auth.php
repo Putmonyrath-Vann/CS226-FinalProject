@@ -49,7 +49,12 @@ return [
         'driver' => [
             'driver' => 'session',
             'provider' => 'driver'
-        ]
+        ],
+
+        'restaurant' => [
+            'driver' => 'session',
+            'provider' => 'restaurant'
+        ],
 
     ],
 
@@ -82,7 +87,11 @@ return [
         'driver' => [
             'driver' => 'eloquent',
             'model' => App\Models\Driver::class
-        ]
+        ],
+        'restaurant' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\Restaurant::class
+        ],
 
         // 'users' => [
         //     'driver' => 'database',
