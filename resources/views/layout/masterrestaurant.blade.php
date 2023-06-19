@@ -13,7 +13,4 @@
         @yield('content')
     </main>
 
-    <footer>
-        @include('layout.footer')
-    </footer>
 </body>

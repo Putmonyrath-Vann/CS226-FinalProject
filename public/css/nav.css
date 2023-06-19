@@ -44,4 +44,5 @@ nav .container .nav-right button{
     padding: 0.4em;
     border-radius: 15px;
     background-color: rgb(255, 93, 120);
+    cursor: pointer;
 }
