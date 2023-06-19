@@ -40,6 +40,7 @@ Route::prefix('/restaurant')->group(function() {
    Route::get('/categories', [CategoryController::class, 'getCategories']);
    Route::post('/add/category', [CategoryController::class, 'addCategory']);
    Route::view('/add/category', 'restaurant.addCategory');
+    Route::get('/delete/category/{id}', [CategoryController::class, 'deleteCategory']);
 });
 
 Route::post('restaurant/add/category', [CategoryController::class, 'addCategory']);
