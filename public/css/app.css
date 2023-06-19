@@ -535,14 +535,14 @@ video {
 .mt-6 {
   margin-top: 1.5rem;
 }
-.block {
-  display: block;
-}
 .flex {
   display: flex;
 }
 .table {
   display: table;
+}
+.hidden {
+  display: none;
 }
 .h-36 {
   height: 9rem;

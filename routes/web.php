@@ -38,8 +38,11 @@ Route::prefix('admin')->group(function () {
 Route::prefix('/restaurant')->group(function() {
    Route::view('/', 'restaurant.home');
    Route::get('/categories', [CategoryController::class, 'getCategories']);
+   Route::post('/add/category', [CategoryController::class, 'addCategory']);
    Route::view('/add/category', 'restaurant.addCategory');
 });
+
+Route::post('restaurant/add/category', [CategoryController::class, 'addCategory']);
 
 Route::post('signup/customer', [AuthController::class, 'customerSignUp']);
 Route::post('signup/driver', [AuthController::class, 'driverSignUp']);
