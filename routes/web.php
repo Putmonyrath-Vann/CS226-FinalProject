@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\RestaurantController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -37,13 +37,16 @@ Route::prefix('admin')->group(function () {
 
 Route::prefix('/restaurant')->group(function() {
    Route::view('/', 'restaurant.home');
-   Route::get('/categories', [CategoryController::class, 'getCategories']);
-   Route::post('/add/category', [CategoryController::class, 'addCategory']);
+   Route::get('/categories', [RestaurantController::class, 'getCategories']);
+   Route::post('/add/category', [RestaurantController::class, 'addCategory']);
    Route::view('/add/category', 'restaurant.addCategory');
-    Route::get('/delete/category/{id}', [CategoryController::class, 'deleteCategory']);
+   Route::get('/delete/category/{id}', [RestaurantController::class, 'deleteCategory']);
+   Route::get('/food', [RestaurantController::class, 'getFood']);
+   Route::post('/add/food', [RestaurantController::class, 'addFood']);
+   Route::get('/delete/food/{id}', [RestaurantController::class, 'deleteFood']);
 });
 
-Route::post('restaurant/add/category', [CategoryController::class, 'addCategory']);
+Route::post('restaurant/add/category', [RestaurantController::class, 'addCategory']);
 
 Route::post('signup/customer', [AuthController::class, 'customerSignUp']);
 Route::post('signup/driver', [AuthController::class, 'driverSignUp']);

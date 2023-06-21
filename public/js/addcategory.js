@@ -1,5 +1,5 @@
-const cardHTML = `<input type="text" class="card" name="category_name[]" id="add" placeholder="Add New Category"/>`;
-const submitButtonHTML = `<button class="add-category-page-btn" onclick="submit()" id="submit">submit</button>`;
+const cardHTML = `<input type="text" class="card" name="food_name[]" id="add" placeholder="Add New Category"/>`;
+const submitButtonHTML = `<button class="category-food-add-btn" onclick="submit()" id="submit">submit</button>`;
 const form = document.querySelector("#form");
 
 function addCategory() {

@@ -14,7 +14,7 @@
         </div>
 
         <div id="buttons">
-            <button class="add-category-page-btn" onclick="addCategory()">add new category</button>
+            <button class="category-food-add-btn" onclick="addCategory()">add new category</button>
         </div>
     @else
         <h1>Your shop's categories</h1>
@@ -31,7 +31,7 @@
         </div>
 
             <div id="buttons">
-                <button class="add-category-page-btn" onclick="addCategory()">add new category</button>
+                <button class="category-food-add-btn" onclick="addCategory()">add new category</button>
             </div>
 
             {{-- <form action="/restaurant/add/category" method="post" id="form">
