@@ -3,8 +3,8 @@
         <a href="/"><img src="/images/musical-note.png" alt=""></a>
     </div>
     <div class="nav-right">
-        <a href="/customers">Customer</a>
-        <a href="/drivers">Driver</a>
+        <a href="/buyer/order">Order</a>
+        <a href="/buyer/history">History</a>
         {{-- <a href="/">Customer Sign Up</a>
         <a href="/signup/driver">Driver Sign Up</a> --}}
         <form action="/logout" method="POST">

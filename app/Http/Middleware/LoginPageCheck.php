@@ -18,7 +18,7 @@ class LoginPageCheck
     public function handle(Request $request, Closure $next)
     {
         if (Auth::guard('buyer')->check()) {
-            return redirect('customers');
+            return redirect('/buyer');
         }
         else if (Auth::guard('driver')->check()) {
             return redirect('drivers');

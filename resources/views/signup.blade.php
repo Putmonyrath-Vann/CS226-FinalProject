@@ -13,8 +13,8 @@
 <body>
     <h1>Choose Your Role</h1>
     <div class="select">
-        <a href="/signup/customer" class="btn">
-            <span class="my-auto">Sign Up As A Customer</span>
+        <a href="/signup/buyer" class="btn">
+            <span class="my-auto">Sign Up As A buyer</span>
         </a>
 
         <a href="/signup/driver" class="btn">

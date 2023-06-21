@@ -12,8 +12,8 @@
 <body>
     <h1>Choose Your Role</h1>
     <div class="select">
-        <a href="/login/customer" class="btn">
-            <span class="my-auto">Log in As A Customer</span>
+        <a href="/login/buyer" class="btn">
+            <span class="my-auto">Log in As A buyer</span>
         </a>
         <a href="/login/driver" class="btn">
             <span>Log in As A Driver</span>

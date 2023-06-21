@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Redirect;
 class AuthController extends Controller
 {
     //
-    public function customerSignUp(Request $request) {
+    public function buyerSignUp(Request $request) {
         Auth::guard('buyer')->logout();
         Auth::guard('driver')->logout();
         Auth::guard('restaurant')->logout();
@@ -54,7 +54,7 @@ class AuthController extends Controller
         return redirect('/');
     }
 
-    public function customerLogin(Request $request) {
+    public function buyerLogin(Request $request) {
         Auth::guard('buyer')->logout();
         Auth::guard('driver')->logout();
         Auth::guard('restaurant')->logout();

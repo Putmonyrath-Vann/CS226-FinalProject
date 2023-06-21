@@ -8,8 +8,8 @@
     <title>Sign Up</title>
 </head>
 <body class="my-4">
-    <h1 class="heading-signup">Sign Up As A Customer</h1>
-    <form class="signup" action="/signup/customer" method="POST" enctype="multipart/form-data">
+    <h1 class="heading-signup">Sign Up As A buyer</h1>
+    <form class="signup" action="/signup/buyer" method="POST" enctype="multipart/form-data">
         @csrf
         <div class="w-full">
             <label for="first_name">First Name:</label>
