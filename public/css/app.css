@@ -517,6 +517,9 @@ video {
   margin-top: auto;
   margin-bottom: auto;
 }
+.ml-auto {
+  margin-left: auto;
+}
 .mr-2 {
   margin-right: 0.5rem;
 }
@@ -528,9 +531,6 @@ video {
 }
 .mt-6 {
   margin-top: 1.5rem;
-}
-.ml-auto {
-  margin-left: auto;
 }
 .table {
   display: table;
