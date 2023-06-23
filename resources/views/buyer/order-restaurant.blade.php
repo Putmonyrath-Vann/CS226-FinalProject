@@ -22,11 +22,72 @@
         @if ($foods_in_category->count() === 0)
             @continue
         @endif
-            <p>{{$category->category_name}}</p>
 
+        <h1>{{$category->category_name}}</h1>
+
+        <div class="all-foods-in-category">
         @foreach($foods_in_category as $food_in_category)
-            <p>{{$food_in_category->name}}<p>
+            <div class="food-in-category">
+                <img src="{{$food_in_category->img}}" class="food-in-category-image"/>
+                <p class="food_in_category_text">{{$food_in_category->name}}</p>
+                <p class="food_in_category_text">
+                    @php
+                        $price = $food_in_category->price;
+                        $price = number_format($price, 2, '.', ',');
+                        echo '$' . $price;
+                    @endphp
+                </p>
+            </div>
+
+            <div class="food-in-category">
+                <img src="{{$food_in_category->img}}" class="food-in-category-image"/>
+                <p class="food_in_category_text">{{$food_in_category->name}}</p>
+                <p class="food_in_category_text">
+                    @php
+                        $price = $food_in_category->price;
+                        $price = number_format($price, 2, '.', ',');
+                        echo '$' . $price;
+                    @endphp
+                </p>
+            </div>
+
+            <div class="food-in-category">
+                <img src="{{$food_in_category->img}}" class="food-in-category-image"/>
+                <p class="food_in_category_text">{{$food_in_category->name}}</p>
+                <p class="food_in_category_text">
+                    @php
+                        $price = $food_in_category->price;
+                        $price = number_format($price, 2, '.', ',');
+                        echo '$' . $price;
+                    @endphp
+                </p>
+            </div>
+
+            <div class="food-in-category">
+                <img src="{{$food_in_category->img}}" class="food-in-category-image"/>
+                <p class="food_in_category_text">{{$food_in_category->name}}</p>
+                <p class="food_in_category_text">
+                    @php
+                        $price = $food_in_category->price;
+                        $price = number_format($price, 2, '.', ',');
+                        echo '$' . $price;
+                    @endphp
+                </p>
+            </div>
+
+            <div class="food-in-category">
+                <img src="{{$food_in_category->img}}" class="food-in-category-image"/>
+                <p class="food_in_category_text">{{$food_in_category->name}}</p>
+                <p class="food_in_category_text">
+                    @php
+                        $price = $food_in_category->price;
+                        $price = number_format($price, 2, '.', ',');
+                        echo '$' . $price;
+                    @endphp
+                </p>
+            </div>
         @endforeach
+        </div>
 
     @endforeach
 @stop

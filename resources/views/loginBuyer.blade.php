@@ -11,7 +11,6 @@
     <h1 class="heading-signup">Log in As A buyer</h1>
     <form class="signup" action="/login/buyer" method="POST" enctype="multipart/form-data">
         @csrf
-
         <div class="w-full">
             <label for="email">Email:</label>
             @if ($errors->has('email'))
@@ -31,7 +30,7 @@
         <p class="self-start hover:underline cursor-pointer select-none" onclick="showPassword()" id="show">Show Password</p>
 
         <div class="self-start mt-5">
-            <input type="checkbox" name="remember" class="scale-125 mr-2" value=1>
+            <input type="checkbox" name="remember" id="remember" class="scale-125 mr-2" value=1>
             <label for="remember" class="text-lg">Remember Me</label>
         </div>
 

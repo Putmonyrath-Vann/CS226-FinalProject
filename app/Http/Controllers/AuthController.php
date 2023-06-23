@@ -74,6 +74,7 @@ class AuthController extends Controller
             $request->session()->regenerate();
             return redirect('/');
         }
+        else return redirect()->back()->withErrors(['unmatched' => 'Email and password do not match']);
         // change needed
         // else redirect('/login');
     }
@@ -138,6 +139,7 @@ class AuthController extends Controller
             $request->session()->regenerate();
             return redirect('/');
         }
+        else return redirect()->back()->withErrors(['unmatched' => 'Email and password do not match']);
         // change needed
         // else redirect('/signup');
     }
