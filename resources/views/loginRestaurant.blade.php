@@ -8,7 +8,7 @@
     <title>Log in</title>
 </head>
 <body class="my-4">
-    <h1 class="heading-signup">Log in As A Customer</h1>
+    <h1 class="heading-signup">Log in to a Restaurant</h1>
     <form class="signup" action="/login/restaurant" method="POST" enctype="multipart/form-data">
         @csrf
 

@@ -64,11 +64,11 @@
                     </a>
                 </div>
             @endforeach
-            <form action="/restaurant/add/food" method="post" id="form">@csrf</form>
+            <form action="/restaurant/add/food" method="post" id="form" enctype="multipart/form-data">@csrf</form>
         </div>
 
         <div id="buttons">
-            <button class="category-food-add-btn" onclick="addFood($categories)">add new food</button>
+            <button class="category-food-add-btn" onclick="addFood({{$categories}})">add new food</button>
         </div>
 
         {{-- <form action="/restaurant/add/category" method="post" id="form">
