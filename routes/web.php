@@ -24,6 +24,7 @@ Route::prefix('/buyer')->group(function() {
     Route::view('/', 'buyer.home');
     Route::get('/order', [BuyerController::class, 'getDataForOrderPage']);
     Route::get('/order/{id}', [BuyerController::class, 'getFoodInRestaurant']);
+    Route::get('/cart', [BuyerController::class, 'getCart']);
 });
 
 Route::view('/buyer', 'buyer.home')->middleware('buyercheck');

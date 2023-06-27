@@ -47,4 +47,24 @@ class BuyerController extends Controller
         });
         return $filterdRestaurants;
     }
+
+    public function getCart(Request $request) {
+        $cart = $request->cookie("cart");
+        if (!isset($cart)) {
+            return view('cart', ['restaurant' => null, 'foods' => null]);
+        }
+        $cart = json_decode($cart);
+
+        $restaurant = DB::table('restaurant')->where('restaurant_id', $cart->restaurantID)->take(1)->get(['name', 'logo']);
+        $restaurant = $restaurant[0];
+
+        $foods = [];
+        foreach($cart->foodObjects as $foodObject) {
+            $food = DB::table('food')->where('food.food_id', $foodObject->id)->join('category', 'category.category_id', 'food.category_id')->first();
+            $food->quantity = $foodObject->quantity;
+            array_push($foods, $food);
+        }
+
+        return view('cart', ['restaurant' => $restaurant, 'foods' => $foods]);
+    }
 }

@@ -46,3 +46,7 @@ nav .container .nav-right button{
     background-color: rgb(255, 93, 120);
     cursor: pointer;
 }
+
+.nav-right a > img {
+    width: 70%;
+}

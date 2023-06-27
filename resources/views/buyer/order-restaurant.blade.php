@@ -37,57 +37,15 @@
                         echo '$' . $price;
                     @endphp
                 </p>
+                <div class="cart-row" onclick="addToCart({{$restaurant->restaurant_id}}, {{$food_in_category->food_id}})">
+                    <img src="/shopping-cart.png" class="cart-image"/>
+                </div>
             </div>
 
-            <div class="food-in-category">
-                <img src="{{$food_in_category->img}}" class="food-in-category-image"/>
-                <p class="food_in_category_text">{{$food_in_category->name}}</p>
-                <p class="food_in_category_text">
-                    @php
-                        $price = $food_in_category->price;
-                        $price = number_format($price, 2, '.', ',');
-                        echo '$' . $price;
-                    @endphp
-                </p>
-            </div>
-
-            <div class="food-in-category">
-                <img src="{{$food_in_category->img}}" class="food-in-category-image"/>
-                <p class="food_in_category_text">{{$food_in_category->name}}</p>
-                <p class="food_in_category_text">
-                    @php
-                        $price = $food_in_category->price;
-                        $price = number_format($price, 2, '.', ',');
-                        echo '$' . $price;
-                    @endphp
-                </p>
-            </div>
-
-            <div class="food-in-category">
-                <img src="{{$food_in_category->img}}" class="food-in-category-image"/>
-                <p class="food_in_category_text">{{$food_in_category->name}}</p>
-                <p class="food_in_category_text">
-                    @php
-                        $price = $food_in_category->price;
-                        $price = number_format($price, 2, '.', ',');
-                        echo '$' . $price;
-                    @endphp
-                </p>
-            </div>
-
-            <div class="food-in-category">
-                <img src="{{$food_in_category->img}}" class="food-in-category-image"/>
-                <p class="food_in_category_text">{{$food_in_category->name}}</p>
-                <p class="food_in_category_text">
-                    @php
-                        $price = $food_in_category->price;
-                        $price = number_format($price, 2, '.', ',');
-                        echo '$' . $price;
-                    @endphp
-                </p>
-            </div>
         @endforeach
         </div>
 
     @endforeach
+
+    <script src="/js/addtocart.js" defer></script>
 @stop
