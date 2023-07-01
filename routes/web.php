@@ -25,7 +25,7 @@ Route::prefix('/buyer')->group(function() {
     Route::get('/order', [BuyerController::class, 'getDataForOrderPage']);
     Route::get('/order/{id}', [BuyerController::class, 'getFoodInRestaurant']);
     Route::get('/cart', [BuyerController::class, 'getCart']);
-    Route::get('/receipt', [BuyerController::class, 'getReceipt'])->middleware('buyercheck');
+    Route::get('/receipt/{id}', [BuyerController::class, 'getReceipt'])->middleware('buyercheck');
     Route::post('/buyerCheckout', [BuyerController::class, 'buyerCheckout'])->middleware('buyercheck');
 });
 

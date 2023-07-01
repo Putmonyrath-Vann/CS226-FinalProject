@@ -17,6 +17,7 @@ class BuyerController extends Controller
     public function getDataForOrderPage(Request $request)
     {
         $restaurants = $this->getRestaurants();
+
         return view('buyer.order', ['restaurants' => $restaurants]);
     }
 
@@ -37,8 +38,25 @@ class BuyerController extends Controller
             'created_at' => $restaurant->created_at,
         ];
 
-        // dd($categories, $foods, $restaurant);
-        return view('buyer.order-restaurant', ['categories' => $categories, 'foods' => $foods, 'restaurant' => $restaurant]);
+        $cart = $request->cookie("cart");
+        // dd($cart);
+        // dd(!isset($cart));
+        // dd(!property_exists($cart, 'restaurant'));
+        if (!isset($cart)) {
+            return view('buyer.order-restaurant', ['categories' => $categories, 'foods' => $foods, 'restaurant' => $restaurant, 'restaurant_in_cart' => null, 'foods_in_cart' => null]);
+        }
+        $cart = json_decode($cart);
+
+        if (!property_exists($cart, 'restaurantID') || !property_exists($cart, 'foodObjects')) {
+            Cookie::queue(Cookie::forget('cart'));
+        }
+
+        $foods_in_cart = [];
+        foreach ($cart->foodObjects as $foodObject) {
+            array_push($foods_in_cart, $foodObject->id);
+        }
+
+        return view('buyer.order-restaurant', ['categories' => $categories, 'foods' => $foods, 'restaurant' => $restaurant, 'restaurant_in_cart' => $cart->restaurantID, 'foods_in_cart' => $foods_in_cart]);
     }
     public function getRestaurants()
     {
@@ -54,6 +72,7 @@ class BuyerController extends Controller
                 'created_at' => $restaurant->created_at,
             ];
         });
+
         return $filterdRestaurants;
     }
 
@@ -61,9 +80,14 @@ class BuyerController extends Controller
     {
         $cart = $request->cookie("cart");
         if (!isset($cart)) {
-            return view('cart', ['restaurant' => null, 'foods' => null]);
+            return view('buyer.cart', ['restaurant' => null, 'foods' => null]);
         }
         $cart = json_decode($cart);
+
+        if (!property_exists($cart, 'restaurantID') || !property_exists($cart, 'foodObjects')) {
+            Cookie::queue(Cookie::forget('cart'));
+            return view('buyer.cart', ['restaurant' => null, 'foods' => null]);
+        }
 
         $restaurant = DB::table('restaurant')->where('restaurant_id', $cart->restaurantID)->take(1)->get(['name', 'logo']);
         $restaurant = $restaurant[0];
@@ -75,34 +99,55 @@ class BuyerController extends Controller
             array_push($foods, $food);
         }
 
-        return view('cart', ['restaurant' => $restaurant, 'foods' => $foods]);
+        return view('buyer.cart', ['restaurant' => $restaurant, 'foods' => $foods]);
     }
 
     public function buyerCheckout(Request $request){
-        
-        $json_cart = json_decode($_COOKIE['cart']);
+
+        $cart = $request->cookie('cart');
+
+        if (!isset($cart)) {
+            return redirect('/buyer/order');
+        }
+
+        $cart = json_decode($cart);
+
+        if (!property_exists($cart, 'restaurantID') || !property_exists($cart, 'foodObjects') || count($cart->foodObjects) < 0) {
+            Cookie::queue(Cookie::forget('cart'));
+            return redirect('/buyer/order');
+        }
+
         $buyer_id = Auth::guard('buyer')->user()->buyer_id;
 
-        $saveOrderId = DB::table('orders')->insertGetId([
-            'buyer_id' => $buyer_id,
-            'total' => $json_cart->totalPrice
-        ]);
-        if (count($json_cart->foodObjects) > 0) {
-            foreach ($json_cart->foodObjects as $food) {
-                $saveOrderFood = DB::table('orderedFood')->insert([
+        $total_price = 0;
+        foreach ($cart->foodObjects as $foodObject) {
+            $food = DB::table('food')->where('food.food_id', $foodObject->id)->first();
+            $total_price += $food->price * $foodObject->quantity;
+        }
+
+        $order_id = DB::table('order')->insertGetId(['buyer_id' => $buyer_id,'restaurant_id' => $cart->restaurantID, 'total_price' => $total_price, 'created_at' => Carbon::now()]);
+
+        if (count($cart->foodObjects) > 0) {
+            foreach ($cart->foodObjects as $food) {
+                $order_info = DB::table('order_info')->insert([
+                    'order_id' => $order_id,
                     'food_id' => $food->id,
-                    'order_id' => $saveOrderId,
-                    'food_quantity' => $food->quantity
+                    'quantity' => $food->quantity,
+                    'created_at' => Carbon::now()
                 ]);
             }
         }
+
         Cookie::queue(Cookie::forget('cart'));
-        
-        return redirect('/buyer/receipt');
+        return redirect('/buyer/receipt/'.$order_id);
     }
 
-    public function getReceipt()
+    public function getReceipt(Request $request, $id)
     {
-        return view('buyer.receipt');
+        $order_info = DB::table('order_info')->join('food', 'order_info.food_id', 'food.food_id')->where('order_id', $id)->get();
+
+        $order = DB::table('order')->join('buyer', 'buyer.buyer_id', 'order.buyer_id')->join('restaurant', 'restaurant.restaurant_id', 'order.restaurant_id')->where('order_id', $id)->select(['order.order_id', 'order.total_price', 'order.created_at', 'buyer.buyer_id', 'buyer.first_name AS buyer_first_name', 'buyer.last_name AS buyer_last_name', 'buyer.phone_number AS buyer_phone_number', 'restaurant.restaurant_id', 'restaurant.name AS restaurant_name', 'restaurant.phone_number AS restaurant_phone_number'])->first();
+
+        return view('buyer.receipt', ['order' => $order, 'order_info' => $order_info]);
     }
 }

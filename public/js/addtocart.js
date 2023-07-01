@@ -1,7 +1,11 @@
+
+
 const formatter = new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'USD',
 });
+
+const tick = `<img src="/images/check-mark.png" class="tick"/>`
 
 function addToCart(restaurantID, foodID) {
     const currentCart = getCookie('cart')
@@ -30,13 +34,19 @@ function addToCart(restaurantID, foodID) {
 
     foodObjects.push({id: foodID, quantity: 1});
 
-
+    const foods = document.querySelectorAll(".food-in-category")
+    foods.forEach(food => {
+        if (food.dataset.foodid == foodID) {
+            food.querySelector('.food_in_category_text.food_price').innerHTML += tick;
+        }
+    })
     const cartObj = {
         restaurantID: restaurantID,
         foodObjects: foodObjects
     }
 
     setCookie('cart', cartObj, 1);
+    // updateTotalPrice();
 
     // localStorage.setItem('cart', JSON.stringify(cartObj));
     console.log('added to cart')
@@ -74,7 +84,7 @@ function updateTotalPrice() {
 
         total += price * quantity;
     })
-    setCookie('cart', {...currentCart, totalPrice: total}, 1)
+
     totalPriceBox.innerHTML = formatter.format(total);
 
     console.log(total);

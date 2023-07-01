@@ -90,6 +90,8 @@
     width: 250px;
     border: 2px solid black;
     border-radius: 10px;
+    height: 430px;
+    position: relative;
 }
 
 .food-in-category-image {
@@ -103,14 +105,30 @@
     margin: 0.8rem 1rem;
 }
 
+.food_in_category_text.food_name {
+    word-wrap: break-word;
+    overflow: hidden;
+    max-height: 14.5%;
+    font-size: 1.2rem;
+    margin: 0.8rem 1rem;
+}
+
+.tick {
+    height: 1.2rem;
+}
+
 .cart-row {
+    position: absolute;
+    bottom: 0;
     display: flex;
     flex-direction: row;
     justify-content: center;
+
     align-items: center;
     height: 50px;
     background-color: green;
     cursor: pointer;
+    width: 100%;
 }
 
 .cart-image {

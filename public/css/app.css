@@ -567,6 +567,9 @@ video {
   --tw-bg-opacity: 1;
   background-color: rgb(30 64 175 / var(--tw-bg-opacity));
 }
+.text-end {
+  text-align: end;
+}
 .text-2xl {
   font-size: 1.5rem;
   line-height: 2rem;

@@ -27,15 +27,18 @@
 
         <div class="all-foods-in-category">
         @foreach($foods_in_category as $food_in_category)
-            <div class="food-in-category">
+            <div class="food-in-category" data-foodid="{{$food_in_category->food_id}}">
                 <img src="{{$food_in_category->img}}" class="food-in-category-image"/>
-                <p class="food_in_category_text">{{$food_in_category->name}}</p>
-                <p class="food_in_category_text">
+                <p class="food_in_category_text food_name">{{ $food_in_category->name }}</p>
+                <p class="food_in_category_text food_price">
                     @php
                         $price = $food_in_category->price;
                         $price = number_format($price, 2, '.', ',');
                         echo '$' . $price;
                     @endphp
+                    @if ($restaurant_in_cart === $restaurant->restaurant_id && isset($foods_in_cart) && in_array($food_in_category->food_id, $foods_in_cart))
+                        <img src="/images/check-mark.png" class="tick"/>
+                    @endif
                 </p>
                 <div class="cart-row" onclick="addToCart({{$restaurant->restaurant_id}}, {{$food_in_category->food_id}})">
                     <img src="/shopping-cart.png" class="cart-image"/>

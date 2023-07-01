@@ -47,7 +47,7 @@ class AuthController extends Controller
 
         if ($request->has('profile_picture')) {
             $img_url = $this->uploadImage($request, 'profile_picture');
-            $buyer->profile_img = $img_url;
+            $buyer->profile_picture = $img_url;
         }
 
         $buyer->save();
@@ -112,7 +112,7 @@ class AuthController extends Controller
 
         if ($request->has('profile_picture')) {
             $img_url = $this->uploadImage($request, 'profile_picture');
-            $driver->profile_img = $img_url;
+            $driver->profile_picture = $img_url;
         }
 
         $driver->save();
