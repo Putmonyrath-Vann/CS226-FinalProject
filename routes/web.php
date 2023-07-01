@@ -25,6 +25,8 @@ Route::prefix('/buyer')->group(function() {
     Route::get('/order', [BuyerController::class, 'getDataForOrderPage']);
     Route::get('/order/{id}', [BuyerController::class, 'getFoodInRestaurant']);
     Route::get('/cart', [BuyerController::class, 'getCart']);
+    Route::get('/receipt', [BuyerController::class, 'getReceipt'])->middleware('buyercheck');
+    Route::post('/buyerCheckout', [BuyerController::class, 'buyerCheckout'])->middleware('buyercheck');
 });
 
 Route::view('/buyer', 'buyer.home')->middleware('buyercheck');
@@ -37,6 +39,9 @@ Route::view('/login/driver', 'loginDriver')->middleware('checklogin');
 Route::view('/login/restaurant', 'loginRestaurant')->middleware('checklogin');
 Route::view('/login', 'login')->middleware('checklogin');
 Route::view('signup', 'signup')->middleware('checklogin');
+
+
+
 
 Route::prefix('admin')->group(function () {
     Route::view('/', 'admin.home');

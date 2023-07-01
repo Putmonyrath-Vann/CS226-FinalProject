@@ -8,6 +8,7 @@ use App\Models\Restaurant;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Redirect;
 
@@ -24,7 +25,7 @@ class AuthController extends Controller
             'email' => 'required|email|unique:buyer,email',
             'password' => 'required|min:8',
             'confirm_password' => 'required|same:password',
-            'phone_number' => 'requried',
+            'phone_number' => 'required',
             'gender' => 'required',
             'profile_picture' => 'image|mimes:jpeg,png,jpg,gif|max:10240',
         ]);
@@ -89,7 +90,7 @@ class AuthController extends Controller
             'email' => 'required|email|unique:driver,email',
             'password' => 'required|min:8',
             'confirm_password' => 'required|same:password',
-            'phone_number' => 'requried',
+            'phone_number' => 'required',
             'gender' => 'required',
             'profile_picture' => 'image|mimes:jpeg,png,jpg,gif|max:10240',
         ]);
@@ -207,6 +208,7 @@ class AuthController extends Controller
         Auth::guard('restaurant')->logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
+        Cookie::queue(Cookie::forget('cart'));
         return redirect('/login');
     }
 

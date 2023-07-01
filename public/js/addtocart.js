@@ -62,6 +62,7 @@ function updateQuantity(foodID) {
 function updateTotalPrice() {
     const rows = document.querySelectorAll('.cart-page-cart-row');
     const totalPriceBox = document.querySelector('.cart-page-total-price');
+    const currentCart = JSON.parse(getCookie('cart'))
 
     let total = 0
     rows.forEach((row, index) => {
@@ -73,10 +74,10 @@ function updateTotalPrice() {
 
         total += price * quantity;
     })
-
+    setCookie('cart', {...currentCart, totalPrice: total}, 1)
     totalPriceBox.innerHTML = formatter.format(total);
 
-    console.log(total)
+    console.log(total);
 }
 
 function setCookie(name, value, days) {
