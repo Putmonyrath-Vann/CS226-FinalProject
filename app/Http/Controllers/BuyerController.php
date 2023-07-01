@@ -150,4 +150,18 @@ class BuyerController extends Controller
 
         return view('buyer.receipt', ['order' => $order, 'order_info' => $order_info]);
     }
+
+    public function getHistory(Request $request) {
+        $buyer_id = Auth::guard('buyer')->user()->buyer_id;
+
+        $history = DB::table('order')->join('order_info', 'order_info.order_id', 'order.order_id')->join('food', 'food.food_id', 'order_info.food_id')->join('restaurant', 'restaurant.restaurant_id', 'order.restaurant_id')->where('buyer_id', $buyer_id)->select(['order.order_id', 'order.total_price', 'restaurant.name AS restaurant_name', 'restaurant.logo', 'order.created_at', DB::raw('GROUP_CONCAT(food.name) AS food_name'), DB::raw('GROUP_CONCAT(food.price) AS food_price'), DB::raw('GROUP_CONCAT(order_info.quantity) AS quantity')])->groupBy('order.order_id')->orderBy('order.created_at', 'desc')->get();
+
+        foreach($history as $order) {
+            $order->food_name = explode(',', $order->food_name);
+            $order->food_price = explode(',', $order->food_price);
+            $order->quantity = explode(',', $order->quantity);
+        }
+
+        return view('buyer.history', ['history' => $history]);
+    }
 }
