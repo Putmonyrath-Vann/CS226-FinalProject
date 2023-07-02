@@ -8,6 +8,7 @@
 
 @section('content')
     <div class="heading">
-        <h1>buyers Page</h1>
+        <a href="/buyer/order" class="homepage-btn-link"><button class="homepage-btn">Order Now</button></a>
+        <a href="/buyer/edit" class="homepage-btn-link"><button class="homepage-btn">Edit Personal Information</button></a>
     </div>
 @stop

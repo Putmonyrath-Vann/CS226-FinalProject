@@ -28,6 +28,7 @@ Route::prefix('/buyer')->group(function() {
     Route::get('/receipt/{id}', [BuyerController::class, 'getReceipt'])->middleware('buyercheck');
     Route::post('/buyerCheckout', [BuyerController::class, 'buyerCheckout'])->middleware('buyercheck');
     Route::get('/history', [BuyerController::class, 'getHistory'])->middleware('buyercheck');
+    Route::get('/edit', [BuyerController::class, 'getEditPage'])->middleware('buyercheck');
 });
 
 Route::view('/buyer', 'buyer.home')->middleware('buyercheck');

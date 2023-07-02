@@ -164,4 +164,13 @@ class BuyerController extends Controller
 
         return view('buyer.history', ['history' => $history]);
     }
+
+    public function getEditPage() {
+        $buyer_id = Auth::guard('buyer')->user()->buyer_id;
+        $buyer = DB::table('buyer')->leftJoin('address', 'address.address_id', 'buyer.address_id')->where('buyer.buyer_id', $buyer_id)->select(['buyer.first_name', 'buyer.last_name', 'buyer.email', 'buyer.phone_number', 'buyer.profile_img', 'address.building_no', 'address.street_no', 'address.region_id', 'address.description'])->first();
+
+        $regions = DB::table('region')->orderBy('region_name')->get();
+
+        return view('buyer.edit', ['buyer' => $buyer, 'regions' => $regions]);
+    }
 }
