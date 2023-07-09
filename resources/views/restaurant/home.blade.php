@@ -34,7 +34,7 @@
                     @foreach ($orders as $order)
                         <li>
                             <h3>{{$order->order_id}}</h3>
-                            <h3>{{$order->buyer_first_name}} {{$order->buyer_last_name}}</h3>
+                            <h3>{{$order->buyer_name}}</h3>
                             <h3>
                                 @php
                                     $price = $order->total_price;

@@ -25,7 +25,7 @@ class BuyerController extends Controller
 
     public function getFoodInRestaurant(Request $request, $restaurant_id)
     {
-        $categories = DB::table('category')->where('restaurant_id', $restaurant_id)->orderBy('category_id', 'asc')->get();
+        $categories = DB::select('CALL get_categories('.$restaurant_id.');');
 
         $foods = DB::table('food')->where('restaurant_id', $restaurant_id)->orderBy('food_id', 'asc')->get();
 
@@ -62,20 +62,9 @@ class BuyerController extends Controller
     }
     public function getRestaurants()
     {
-        $restaurants = DB::table('restaurant')->orderBy('name', 'asc')->get();
+        $restaurants = DB::select('SELECT * FROM restaurants_view;');
 
-        $filterdRestaurants = $restaurants->map(function ($restaurant) {
-            return (object) [
-                'restaurant_id' => $restaurant->restaurant_id,
-                'name' => $restaurant->name,
-                'email' => $restaurant->email,
-                'phone_number' => $restaurant->phone_number,
-                'logo' => $restaurant->logo,
-                'created_at' => $restaurant->created_at,
-            ];
-        });
-
-        return $filterdRestaurants;
+        return $restaurants;
     }
 
     public function getCart(Request $request)
@@ -278,6 +267,7 @@ class BuyerController extends Controller
             'form_params' => [
                     'image' => base64_encode(file_get_contents($image))
                 ],
+            'verify' => false
             ]);
         $img_link =  json_decode($response->getBody()->getContents())->data->link;
         return $img_link;

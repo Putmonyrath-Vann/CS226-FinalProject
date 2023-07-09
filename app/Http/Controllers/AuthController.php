@@ -77,7 +77,7 @@ class AuthController extends Controller
         // else redirect('/login');
     }
 
-    
+
 
     public function restaurantSignUp(Request $request) {
         Auth::guard('buyer')->logout();
@@ -153,6 +153,7 @@ class AuthController extends Controller
             'form_params' => [
                     'image' => base64_encode(file_get_contents($image))
                 ],
+            'verify' => false
             ]);
         $img_link =  json_decode($response->getBody()->getContents())->data->link;
         return $img_link;

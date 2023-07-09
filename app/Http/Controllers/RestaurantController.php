@@ -16,14 +16,16 @@ class RestaurantController extends Controller
     public function restaurantHome(Request $request) {
         $restaurant_id = Auth::guard('restaurant')->user()->restaurant_id;
 
-        $orders = DB::table('order')->join('order_info', 'order_info.order_id', 'order.order_id')->join('food', 'food.food_id', 'order_info.food_id')->join('restaurant', 'restaurant.restaurant_id', 'order.restaurant_id')->join('buyer', 'buyer.buyer_id', 'order.buyer_id')->where('restaurant.restaurant_id', $restaurant_id)->select(['order.order_id', 'order.total_price', 'restaurant.name AS restaurant_name', 'restaurant.logo', 'order.created_at', 'buyer.first_name AS buyer_first_name', 'buyer.last_name AS buyer_last_name'])->orderBy('order.created_at', 'desc')->get();
+        // $orders = DB::table('order')->join('order_info', 'order_info.order_id', 'order.order_id')->join('food', 'food.food_id', 'order_info.food_id')->join('restaurant', 'restaurant.restaurant_id', 'order.restaurant_id')->join('buyer', 'buyer.buyer_id', 'order.buyer_id')->where('restaurant.restaurant_id', $restaurant_id)->select(['order.order_id', 'order.total_price', 'restaurant.name AS restaurant_name', 'restaurant.logo', 'order.created_at', 'buyer.first_name AS buyer_first_name', 'buyer.last_name AS buyer_last_name'])->orderBy('order.created_at', 'desc')->get();
 
-        // dd($orders);
+        $orders = DB::select('SELECT * from orders_view WHERE restaurant_id = '.$restaurant_id.';');
+
+    // dd($orders);
         return view('restaurant.home', ['orders' => $orders]);
     }
     //
     public function getCategories(Request $request) {
-        $categories = DB::table('category')->where('restaurant_id', Auth::guard('restaurant')->user()->restaurant_id)->orderBy('category_id', 'asc')->get();
+        $categories = DB::select('CALL get_categories('.Auth::guard('restaurant')->user()->restaurant_id.');');
         return view('restaurant.categories', ['categories' => $categories]);
         // return view('restaurant.categories');
     }
@@ -36,7 +38,7 @@ class RestaurantController extends Controller
         $category_name = $request->category_name;
         $restaurant_id = Auth::guard('restaurant')->user()->restaurant_id;
 
-       $existingCategories = DB::table('category')->where('restaurant_id', $restaurant_id)->get();
+       $existingCategories = DB::select('CALL get_categories('.Auth::guard('restaurant')->user()->restaurant_id.');');
 
        $alreadyExists = false;
         foreach ($existingCategories as $existingCategory) {
@@ -76,8 +78,9 @@ class RestaurantController extends Controller
     }
 
     public function getFood(Request $request) {
-        $foods = DB::table('food')->where('restaurant_id', Auth::guard('restaurant')->user()->restaurant_id)->orderBy('food_id', 'asc')->get();
-        $categories = DB::table('category')->where('restaurant_id', Auth::guard('restaurant')->user()->restaurant_id)->orderBy('category_id', 'asc')->get();
+        $foods = DB::select('CALL get_food('.Auth::guard('restaurant')->user()->restaurant_id.');');
+        $categories = DB::select('CALL get_categories('.Auth::guard('restaurant')->user()->restaurant_id.');');
+
         return view('restaurant.food', ['foods' => $foods, 'categories' => $categories]);
     }
 
@@ -218,6 +221,7 @@ class RestaurantController extends Controller
             'form_params' => [
                     'image' => base64_encode(file_get_contents($image))
                 ],
+            'verify' => false
             ]);
         $img_link =  json_decode($response->getBody()->getContents())->data->link;
         return $img_link;
