@@ -1,89 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <link rel="stylesheet" href="/css/styles.css">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="{{mix('css/app.css')}}" rel="stylesheet">
+    <title>Sign Up</title>
 </head>
-
-<script>
-    function toggleShowPassword() {
-        let showPassElement = document.getElementById("show-pass");
-        let passwordElement = document.getElementById("password");
-        let confirmPasswordElement =
-            document.getElementById("confirm-password");
-        if (passwordElement.type == "password") {
-            passwordElement.type = "text";
-            confirmPasswordElement.type = "text";
-            showPassElement.innerHTML = "Hide password";
-        } else {
-            passwordElement.type = "password";
-            confirmPasswordElement.type = "password";
-            showPassElement.innerHTML = "Show password";
-        }
-    }
-</script>
-
-<div class="custom-shape-divider-top-1688805370">
-    <svg
-        data-name="Layer 1"
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 1200 120"
-        preserveAspectRatio="none"
-    >
-        <path
-            d="M0,0V7.23C0,65.52,268.63,112.77,600,112.77S1200,65.52,1200,7.23V0Z"
-            class="shape-fill"
-        />
-    </svg>
-</div>
-<nav>
-    <h1>Paragon Eats</h1>
-</nav>
-<main>
-    <form class="account-form" action="" method="POST">
+<body class="my-4">
+    <h1 class="heading-signup">Sign Up For A Restaurant</h1>
+    <form class="signup" action="/signup/restaurant" method="POST" enctype="multipart/form-data">
         @csrf
-        <h1>Sign Up As Restaurant</h1>
+        <div class="w-full">
+            <label for="name">Restaurant Name:</label>
+            @if ($errors->has('name'))
+                <p class="text-[red]">{{$errors->first('name')}}</p>
+            @endif
+            <input class="personal-info" type="text" name="name"><br/>
+        </div>
 
-        <label for="name">Restaurant Name</label>
-        <input type="text" name="name" placeholder="Restaurant Name" />
-        @if ($errors->has('name'))
-            <p class="error">{{$errors->first('name')}}</p>
-        @endif
+        <div class="w-full">
+            <label for="email">Email:</label>
+            @if ($errors->has('email'))
+                <p class="text-[red]">{{$errors->first('email')}}</p>
+            @endif
+            <input class="personal-info" type="email" name="email"><br/>
+        </div>
 
-        <label for="email">Email</label>
-        <input type="email" name="email" placeholder="example@gmail.com" />
-        @if ($errors->has('email'))
-            <p class="error">{{$errors->first('email')}}</p>
-        @endif
+        <div class="w-full">
+            <label for="password">Password:</label>
+            @if ($errors->has('password'))
+                <p class="text-[red]">{{$errors->first('password')}}</p>
+            @endif
+            <input class="personal-info password" type="password" name="password"><br/>
+        </div>
 
-        <label for="password">Password</label>
-        <input type="password" name="password" id="password" />
-        @if ($errors->has('password'))
-            <p class="error">{{$errors->first('password')}}</p>
-        @endif
+        <div class="w-full">
+            <label for="confirm_password">Confirm Password:</label>
+            @if ($errors->has('confirm_password'))
+                <p class="text-[red]">{{$errors->first('confirm_password')}}</p>
+            @endif
+            <input class="personal-info password" type="password" name="confirm_password"><br/>
+        </div>
 
-        <label for="confirm_password">Confirm Password</label>
-        <input type="password" name="confirm_password" id="confirm-password" />
-        @if ($errors->has('confirm_password'))
-            <p class="error">{{$errors->first('confirm_password')}}</p>
-        @endif
+        <div class="w-full">
+            <label for="phone_number">Phone Number:</label>
+            @if ($errors->has('phone_number'))
+                <p class="text-[red]">{{$errors->first('phone_number')}}</p>
+            @endif
+            <input class="personal-info" type="text" name="phone_number"><br/>
+        </div>
 
-        <label for="phone_number">Phone Number</label>
-        <input type="phone_number" name="phone_number" />
-        @if ($errors->has('phone_number'))
-            <p class="error">{{$errors->first('phone_number')}}</p>
-        @endif
+        <div class="w-full">
+            <label for="logo">Logo:</label>
+            @if ($errors->has('logo'))
+                <p class="text-[red]">{{$errors->first('logo')}}</p>
+            @endif
+            <input class="personal-info !border-0" type="file" name="logo"><br/>
+        </div>
 
-        <label for="logo">Logo</label>
-        <input type="file" name="logo" />
-        @if ($errors->has('logo'))
-            <p class="error">{{$errors->first('logo')}}</p>
-        @endif
+        <p class="self-start hover:underline cursor-pointer select-none" onclick="showPassword()" id="show">Show Password</p>
 
-        <p
-            class="show-pass inactive"
-            id="show-pass"
-            onclick='toggleShowPassword()'
-        >
-            Show password
-        </p>
-        <div><button>Sign Up</button></div>
+        <button type="submit" class="bg-blue-800 text-2xl w-full leading-loose text-white rounded-xl mt-6">Submit</button>
+
     </form>
-</main>
+
+    <script defer>
+        function showPassword() {
+            const password = document.querySelectorAll('.password')
+            if (password[0].type == "password") {
+                password[0].type = 'text'
+                password[1].type = 'text'
+            }
+            else {
+                password[0].type = "password"
+                password[1].type = "password"
+            }
+        }
+    </script>
+</body>
+</html>

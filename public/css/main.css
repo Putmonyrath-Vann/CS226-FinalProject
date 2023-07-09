@@ -1,0 +1,11 @@
+body{
+    background-color: lightgray;
+    padding: 0;
+    margin: 0;
+    font-family: 'Poppins';
+}
+
+.center{
+    display: grid;
+    place-items: center;
+}

@@ -1,0 +1,109 @@
+.receipt {
+    width:50%;
+    background-color: bisque;
+    padding: 25px 30px;
+}
+
+.receipt-heading {
+    text-align: center;
+    font-size: 30px;
+    text-decoration: underline;
+}
+
+.order {
+    padding-top: 5px;
+    border-top: 1px solid black;
+    margin-top: 15px;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 40fr 60fr;
+    font-size: 18px;
+    row-gap: 10px;
+    word-wrap: break-word;
+}
+
+p {
+    margin: 0;
+}
+
+.order-info {
+    padding-top: 5px;
+    border-top: 1px solid black;
+    margin-top: 25px;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 15fr 65fr 20fr;
+    font-size: 18px;
+    row-gap: 12px;
+}
+
+.order-summary {
+    padding-top: 5px;
+    border-top: 1px solid black;
+    margin-top: 25px;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 40fr 60fr;
+    font-size: 18px;
+    row-gap: 10px;
+    word-wrap: break-word;
+}
+
+.text-end {
+    text-align: end;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+.double-underline {
+    text-decoration: underline;
+    text-decoration-style: double;
+}
+
+.order-history {
+    width: 70%;
+    background-color: white;
+    border-radius: 20px;
+    padding: 20px;
+    cursor: pointer;
+}
+
+.restaurant-info {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 15fr 50fr 15fr;
+    column-gap: 20px;
+}
+
+.logo {
+    width: 100%;
+    aspect-ratio: 1/1;
+}
+
+.name-side {
+    margin-left: 30px;
+}
+
+.restaurant-name {
+    font-size: 25px;
+    font-weight: bold;
+    word-wrap: break-word;
+}
+
+.history-time {
+    font-size: 20px;
+    margin: 10px 0;
+}
+
+.order-food-list {
+    margin: 10px;
+    padding-left: 10px;
+}
+
+.order-price {
+    font-size: 25px;
+    font-weight: bold;
+    text-align: end;
+}
