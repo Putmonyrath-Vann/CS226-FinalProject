@@ -34,10 +34,8 @@ Route::prefix('/buyer')->middleware('buyercheck')->group(function() {
 
 Route::view('/drivers', 'drivers')->middleware('drivercheck');
 Route::view('/signup/buyer', 'signupbuyer')->middleware('checklogin');
-Route::view('/signup/driver', 'signupDriver')->middleware('checklogin');
 Route::view('/signup/restaurant', 'signupRestaurant')->middleware('checklogin');
 Route::view('/login/buyer', 'loginbuyer')->middleware('checklogin');
-Route::view('/login/driver', 'loginDriver')->middleware('checklogin');
 Route::view('/login/restaurant', 'loginRestaurant')->middleware('checklogin');
 Route::view('/login', 'login')->middleware('checklogin');
 Route::view('signup', 'signup')->middleware('checklogin');
@@ -62,11 +60,9 @@ Route::prefix('/restaurant')->group(function() {
 Route::post('restaurant/add/category', [RestaurantController::class, 'addCategory']);
 
 Route::post('signup/buyer', [AuthController::class, 'buyerSignUp']);
-Route::post('signup/driver', [AuthController::class, 'driverSignUp']);
 Route::post('signup/restaurant', [AuthController::class, 'restaurantSignUp']);
 
 Route::post('login/buyer', [AuthController::class, 'buyerLogin']);
-Route::post('login/driver', [AuthController::class, 'driverLogin']);
 Route::post('login/restaurant', [AuthController::class, 'restaurantLogin']);
 
 Route::post('logout', [AuthController::class, 'logout']);
