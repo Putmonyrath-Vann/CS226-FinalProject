@@ -22,6 +22,10 @@
     font-size: 23px;
 }
 
+.input-textarea {
+    height: 250px;
+}
+
 .profile-picture-row {
     display: flex;
     justify-content: center;
@@ -69,4 +73,15 @@
 
 .profile-picture-wrapper:hover .profile-picture {
     filter: blur(2px)
+}
+
+.save-btn {
+    padding: 10px 20px;
+    font-size: 23px;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+.save-btn:hover {
+    background-color: lightgreen;
 }

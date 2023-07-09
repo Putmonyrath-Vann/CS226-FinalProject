@@ -16,17 +16,20 @@ class RestaurantController extends Controller
     public function getCategories(Request $request) {
         $categories = DB::table('category')->where('restaurant_id', Auth::guard('restaurant')->user()->restaurant_id)->orderBy('category_id', 'asc')->get();
         return view('restaurant.categories', ['categories' => $categories]);
-        return view('restaurant.categories');
+        // return view('restaurant.categories');
     }
 
     public function addCategory(Request $request) {
+        // dd($request);
         $request->validate([
-            'category_name' => "required|array|",
+            'category_name' => "required|array",
             'category_name.*' => 'required|string|distinct'
         ]);
 
         $categories = $request->category_name;
         $restaurant_id = Auth::guard('restaurant')->user()->restaurant_id;
+
+
         foreach($categories as $category) {
             $category = trim($category);
             $insert = DB::table('category')->insert([
