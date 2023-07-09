@@ -65,7 +65,7 @@
                     @endforeach
                 </select>
                 <h3>Food Price</h3>
-                <input type="number" placeholder="" name="food_price" min="0"/>
+                <input type="number" placeholder="" name="food_price" step="0.01" min="0"/>
                 <div style="margin-top: 1rem;"><button>Add Food</button></div>
             </form>
         </main>
