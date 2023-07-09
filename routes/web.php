@@ -20,18 +20,18 @@ Route::get('/', function () {
     return view('index');
 })->middleware('checkhome');
 
-Route::prefix('/buyer')->middleware('buyercheck')->group(function() {
+Route::prefix('/buyer')->group(function() {
     Route::view('/', 'buyer.home');
     Route::get('/order', [BuyerController::class, 'getDataForOrderPage']);
     Route::get('/order/{id}', [BuyerController::class, 'getFoodInRestaurant']);
     Route::get('/cart', [BuyerController::class, 'getCart']);
-    Route::get('/receipt/{id}', [BuyerController::class, 'getReceipt']);
-    Route::post('/buyerCheckout', [BuyerController::class, 'buyerCheckout']);
-    Route::get('/history', [BuyerController::class, 'getHistory']);
-    Route::get('/edit', [BuyerController::class, 'getEditPage']);
-    Route::post('/edit/profile', [BuyerController::class, 'editProfile']);
+    Route::get('/receipt/{id}', [BuyerController::class, 'getReceipt'])->middleware('buyercheck');
+    Route::post('/buyerCheckout', [BuyerController::class, 'buyerCheckout'])->middleware('buyercheck');
+    Route::get('/history', [BuyerController::class, 'getHistory'])->middleware('buyercheck');
+    Route::get('/edit', [BuyerController::class, 'getEditPage'])->middleware('buyercheck');
 });
 
+Route::view('/buyer', 'buyer.home')->middleware('buyercheck');
 Route::view('/drivers', 'drivers')->middleware('drivercheck');
 Route::view('/signup/buyer', 'signupbuyer')->middleware('checklogin');
 Route::view('/signup/restaurant', 'signupRestaurant')->middleware('checklogin');
@@ -39,6 +39,8 @@ Route::view('/login/buyer', 'loginbuyer')->middleware('checklogin');
 Route::view('/login/restaurant', 'loginRestaurant')->middleware('checklogin');
 Route::view('/login', 'login')->middleware('checklogin');
 Route::view('signup', 'signup')->middleware('checklogin');
+
+
 
 
 Route::prefix('admin')->group(function () {
