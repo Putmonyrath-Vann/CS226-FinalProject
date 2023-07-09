@@ -34,7 +34,7 @@
     <h1>Paragon Eats</h1>
 </nav>
 <main>
-    <form class="account-form" action="/signup/buyer" method="POST">
+    <form class="account-form" action="/signup/buyer" method="POST" enctype="multipart/form-data">
         @csrf
         <h1>Sign Up As User</h1>
 

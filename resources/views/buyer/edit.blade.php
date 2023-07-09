@@ -91,35 +91,15 @@
                 <p class="error">{{$errors->first('profile_picture')}}</p>
             @endif
 
-            <label for="building_no">Building Number</label>
-            <input type="text" name="building_no" value="{{$buyer->building_no}}"/>
-            @if ($errors->has('building_no'))
-                <p class="error">{{$errors->first('building_no')}}</p>
-            @endif
-
-            <label for="street_no">Street Number</label>
-            <input type="text" name="street_no" value="{{$buyer->street_no}}"/>
-            @if ($errors->has('street_no'))
-                <p class="error">{{$errors->first('street_no')}}</p>
-            @endif
-
             <section>
-                <label for="region">Region:</label>
-                <select name="region">
-                    <option value=''>Select Region</option>
-                    @foreach ($regions as $region)
-                        <option value="{{$region->region_id}}" {{$region->region_id == $buyer->region_id ? 'selected' : ''}}>{{$region->region_name}}</option>
-                    @endforeach
+                <label for="gender">Gender:</label>
+                <select name="gender">
+                    <option value="1">Male</option>
+                    <option value="0">Female</option>
                 </select>
-                @if ($errors->has('region'))
-                    <p class="error">{{$errors->first('region')}}</p>
-                @endif
             </section>
-
-            <label for="description">Address Description:</label>
-            <textarea class="textarea" type="text" name="description" placeholder="Write Your Address Description Here">{{$buyer->description}}</textarea>
-            @if ($errors->has('description'))
-                <p class="error">{{$errors->first('description')}}</p>
+            @if ($errors->has('gender'))
+                <p class="error">{{$errors->first('gender')}}</p>
             @endif
 
             <p

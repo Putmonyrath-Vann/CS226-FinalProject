@@ -52,11 +52,9 @@ Route::prefix('/restaurant')->middleware('restaurantcheck')->group(function() {
 });
 
 Route::post('signup/buyer', [AuthController::class, 'buyerSignUp']);
-Route::post('signup/driver', [AuthController::class, 'driverSignUp']);
 Route::post('signup/restaurant', [AuthController::class, 'restaurantSignUp']);
 
 Route::post('login/buyer', [AuthController::class, 'buyerLogin']);
-Route::post('login/driver', [AuthController::class, 'driverLogin']);
 Route::post('login/restaurant', [AuthController::class, 'restaurantLogin']);
 
 Route::post('logout', [AuthController::class, 'logout']);

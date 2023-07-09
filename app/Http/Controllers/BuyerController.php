@@ -189,15 +189,14 @@ class BuyerController extends Controller
         $buyer = Auth::guard('buyer')->user();
         // dd($request);
         $rules = [
-            'first_name' => 'required|string|max:30',
-            'last_name' => 'required|string|max:30',
+            'first_name' => 'required',
+            'last_name' => 'required',
+            'email' => 'required|email|unique:buyer,email',
+            'password' => 'required|min:8',
+            'confirm_password' => 'required|same:password',
             'phone_number' => 'required',
-            'password' => 'nullable|required_with:confirm_assword|min:8',
-            'confirm_password' => 'nullable|required_with:password|same:password|min:8',
-            'building_no' => 'nullable|required_with:street_no,region,description|string|max:10',
-            'street_no' => 'nullable|required_with:building_no,region,description|string|max:10',
-            'region' => 'nullable|required_with:street_no,building_no,description|integer',
-            'description' => 'nullable|string|max:255'
+            'gender' => 'required',
+            'profile_picture' => 'image|mimes:jpeg,png,jpg,gif|max:10240',
         ];
 
         if ($buyer->email != $request->input('email')) {
