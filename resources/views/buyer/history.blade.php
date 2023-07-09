@@ -1,39 +1,53 @@
 @extends('layout.master')
 
-@section('styles')
-    <link rel="stylesheet" href="/css/receipt.css">
-@stop
-
-@section('pageTitle', 'Receipt')
+@section('pageTitle', 'History')
 
 @section('content')
-    <h2 class="heading-receipt">Order History</h2>
-    @foreach ($history as $order)
-    <div class="order-history">
-        <div class="restaurant-info" onclick="showReceipt({{$order->order_id}})">
-            <img src="{{$order->logo}}" class="logo"/>
-            <div class="name-side">
-                <p class="restaurant-name">{{$order->restaurant_name}}</p>
-                <p class="order-time">Ordered At: {{$order->created_at}}</p>
-                <ul class="order-food-list">
-                    @for($i = 0; $i < count($order->food_name); $i++)
-                        <li>{{$order->quantity[$i]}}x {{$order->food_name[$i]}}</li>
-                    @endfor
-                </ul>
+    <div class="full-bg">
+        <nav>
+            <a href="/buyer"><h1>Paragon Eats</h1></a>
+            <div class="right">
+                <a href="/buyer/order">Order</a>
+                <a href="/buyer/history">History</a>
+                <a href="/buyer/cart">
+                    <img src="/grocery-store.png" alt="" />
+                </a>
+                <form action="/logout" method="POST">
+                    @csrf
+                    <button class="logout">Log Out</button>
+                </form>
             </div>
-            <p class="order-price">
-                @php
-                $price = $order->total_price;
-                $price = number_format($price, 2, '.', ',');
-                echo '$' . $price;
-            @endphp</p>
-        </div>
+        </nav>
+        <main class="container" style="color:white">
+            <h1 style="text-align: center;margin-bottom: 2rem;">History</h1>
+            @if (count($orders) == 0)
+                <h2>No Items</h2>
+            @else
+                <ul class="history">
+                    @foreach ($orders as $order)
+                        <li>
+                            <div>
+                                <img src={{$order->logo}} alt="" />
+                                <h2>{{$order->restaurant_name}}</h2>
+                            </div>
+                            <div class="col-2">
+                                <ul class="order-food-list">
+                                    @for($i = 0; $i < count($order->food_name); $i++)
+                                        <h3>{{$order->food_name[$i]}} x {{$order->quantity[$i]}}</h3>
+                                    @endfor
+                                </ul>
+                                <h3>Total:
+                                    @php
+                                        $price = $order->total_price;
+                                        $price = number_format($price, 2, '.', ',');
+                                        echo '$' . $price;
+                                    @endphp
+                                </h3>
+                            </div>
+                        </li>
+                    @endforeach
+                </ul>
+            @endif
+        </main>
     </div>
-    @endforeach
-
-    <script>
-        function showReceipt(id) {
-            window.location.href = "/buyer/receipt/" + id;
-        }
-    </script>
 @stop

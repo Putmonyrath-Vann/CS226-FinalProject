@@ -1,45 +1,45 @@
-@extends('layout.masterrestaurant')
-
-@section('styles')
-    <link rel="stylesheet" href="/css/home.css">
-@stop
+@extends('layout.master')
 
 @section('pageTitle', 'Restaurant Page')
 
 @section('content')
-    @if ($categories->isEmpty())
-        <h1>Your shop haven't created any categories yet</h1>
-        <div style="width: 70%;">
-            <form action="/restaurant/add/category" method="post" id="form">@csrf</form>
-        </div>
+    <script>
+        let categories = ["Fast Food", "Deserts", "Alcohol"];
+    </script>
 
-        <div id="buttons">
-            <button class="category-food-add-btn" onclick="addCategory()">add new category</button>
-        </div>
-    @else
-        <h1>Your shop's categories</h1>
-        <div style="width: 70%;">
-            @foreach($categories as $category)
-                <div class="card">
-                    {{$category->category_name}}
-                    <a href="/restaurant/delete/category/{{$category->category_id}}">
-                        <img src="/trash-bin.png" alt="delete" class="delete-icon"/>
-                    </a>
-                </div>
-            @endforeach
-            <form action="/restaurant/add/category" method="post" id="form">@csrf</form>
-        </div>
-
-            <div id="buttons">
-                <button class="category-food-add-btn" onclick="addCategory()">add new category</button>
+    <div class="full-bg">
+        <nav>
+            <a href="/restaurant"><h1>Paragon Eats</h1></a>
+            <div class="right">
+                <a href="/restaurant/categories">Categories</a>
+                <a href="/restaurant/food">Food</a>
+                <a href="/restaurant/edit">Edit Info</a>
+                <form action="/logout" method="POST">
+                    @csrf
+                    <button class="logout">Log Out</button>
+                </form>
             </div>
-
-            {{-- <form action="/restaurant/add/category" method="post" id="form">
+        </nav>
+        <main class="container" style="color:white">
+            <h1 style="text-align: center;margin-bottom: 2rem;">Your Categories</h1>
+            <ul class="categories">
+                @foreach($categories as $category)
+                    <a onclick="
+                        let confirmation = confirm('Are you sure you want to delete this category?');
+                        if (confirmation) {
+                            window.location.href = '/restaurant/remove/category/{{$category->category_id}}';
+                        }
+                    ">
+                        {{$category->category_name}}
+                    </a>
+                @endforeach
+            </ul>
+            <h2 style="margin-top: 2rem;">New Category</h2>
+            <form class="new-category" action="/restaurant/add/category" method="POST">
                 @csrf
-                <input type="text" name="category_name" class="card" id="add" placeholder="Add New Category"/>
+                <input type="text" placeholder="New Category" name="category_name"/>
+                <button>Add Category</button>
             </form>
-        </div>
-        <script src="/js/newcategory.js" defer></script> --}}
-    @endif
-    <script src="/js/addcategory.js" defer></script>
+        </main>
+    </div>
 @stop

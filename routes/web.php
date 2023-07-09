@@ -16,55 +16,47 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('index');
-})->middleware('checkhome');
+Route::get('/')->middleware('redirectMiddleware');
 
-Route::prefix('/buyer')->group(function() {
+Route::prefix('/buyer')->middleware('buyercheck')->group(function() {
     Route::view('/', 'buyer.home');
     Route::get('/order', [BuyerController::class, 'getDataForOrderPage']);
     Route::get('/order/{id}', [BuyerController::class, 'getFoodInRestaurant']);
     Route::get('/cart', [BuyerController::class, 'getCart']);
-    Route::get('/receipt/{id}', [BuyerController::class, 'getReceipt'])->middleware('buyercheck');
-    Route::post('/buyerCheckout', [BuyerController::class, 'buyerCheckout'])->middleware('buyercheck');
-    Route::get('/history', [BuyerController::class, 'getHistory'])->middleware('buyercheck');
-    Route::get('/edit', [BuyerController::class, 'getEditPage'])->middleware('buyercheck');
+    Route::post('/buyerCheckout', [BuyerController::class, 'buyerCheckout']);
+    Route::get('/history', [BuyerController::class, 'getHistory']);
+    Route::get('/edit', [BuyerController::class, 'getEditPage']);
+    Route::post('/edit/profile', [BuyerController::class, 'editProfile']);
 });
 
-Route::view('/buyer', 'buyer.home')->middleware('buyercheck');
-Route::view('/drivers', 'drivers')->middleware('drivercheck');
-Route::view('/signup/buyer', 'signupbuyer')->middleware('checklogin');
-Route::view('/signup/restaurant', 'signupRestaurant')->middleware('checklogin');
-Route::view('/login/buyer', 'loginbuyer')->middleware('checklogin');
-Route::view('/login/restaurant', 'loginRestaurant')->middleware('checklogin');
-Route::view('/login', 'login')->middleware('checklogin');
-Route::view('signup', 'signup')->middleware('checklogin');
-
-
-
-
-Route::prefix('admin')->group(function () {
-    Route::view('/', 'admin.home');
-    Route::view('/add-restaurant', 'admin.addRestaurant');
+Route::group(['middleware' => ['checkLogin']], function() {
+    Route::view('/login', 'login-signup');
+    Route::view('/login/buyer', 'loginbuyer');
+    Route::view('/login/restaurant', 'loginRestaurant');
+    Route::view('signup', 'signup');
+    Route::view('/signup/buyer', 'signupbuyer');
+    Route::view('/signup/restaurant', 'signupRestaurant');
 });
 
-Route::prefix('/restaurant')->group(function() {
-   Route::view('/', 'restaurant.home');
+Route::prefix('/restaurant')->middleware('restaurantcheck')->group(function() {
+   Route::get('/', [RestaurantController::class, 'restaurantHome']);
    Route::get('/categories', [RestaurantController::class, 'getCategories']);
    Route::post('/add/category', [RestaurantController::class, 'addCategory']);
    Route::view('/add/category', 'restaurant.addCategory');
-   Route::get('/delete/category/{id}', [RestaurantController::class, 'deleteCategory']);
+   Route::get('/remove/category/{id}', [RestaurantController::class, 'removeCategory']);
    Route::get('/food', [RestaurantController::class, 'getFood']);
    Route::post('/add/food', [RestaurantController::class, 'addFood']);
-   Route::get('/delete/food/{id}', [RestaurantController::class, 'deleteFood']);
+   Route::get('/remove/food/{id}', [RestaurantController::class, 'removeFood']);
+   Route::get('/edit', [RestaurantController::class, 'getEditPage']);
+   Route::post('/edit/profile', [RestaurantController::class, 'editProfile']);
 });
 
-Route::post('restaurant/add/category', [RestaurantController::class, 'addCategory']);
-
 Route::post('signup/buyer', [AuthController::class, 'buyerSignUp']);
+Route::post('signup/driver', [AuthController::class, 'driverSignUp']);
 Route::post('signup/restaurant', [AuthController::class, 'restaurantSignUp']);
 
 Route::post('login/buyer', [AuthController::class, 'buyerLogin']);
+Route::post('login/driver', [AuthController::class, 'driverLogin']);
 Route::post('login/restaurant', [AuthController::class, 'restaurantLogin']);
 
 Route::post('logout', [AuthController::class, 'logout']);

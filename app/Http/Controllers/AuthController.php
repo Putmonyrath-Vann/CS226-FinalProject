@@ -17,6 +17,7 @@ class AuthController extends Controller
     //
     public function buyerSignUp(Request $request) {
         Auth::guard('buyer')->logout();
+        Auth::guard('driver')->logout();
         Auth::guard('restaurant')->logout();
         $request->validate([
             'first_name' => 'required',
@@ -46,7 +47,7 @@ class AuthController extends Controller
 
         if ($request->has('profile_picture')) {
             $img_url = $this->uploadImage($request, 'profile_picture');
-            $buyer->profile_picture = $img_url;
+            $buyer->profile_img = $img_url;
         }
 
         $buyer->save();
@@ -56,6 +57,7 @@ class AuthController extends Controller
 
     public function buyerLogin(Request $request) {
         Auth::guard('buyer')->logout();
+        Auth::guard('driver')->logout();
         Auth::guard('restaurant')->logout();
         $request->validate([
             'email' => 'required|email',
@@ -73,13 +75,79 @@ class AuthController extends Controller
             $request->session()->regenerate();
             return redirect('/');
         }
-        else return redirect()->back()->withErrors(['unmatched' => 'Email and password do not match']);
+        else return redirect('/login/buyer')->with(['unmatched' => ['Email and password do not match']]);
         // change needed
         // else redirect('/login');
     }
 
+    public function driverSignup(Request $request) {
+        Auth::guard('buyer')->logout();
+        Auth::guard('driver')->logout();
+        Auth::guard('restaurant')->logout();
+        $request->validate([
+            'first_name' => 'required',
+            'last_name' => 'required',
+            'email' => 'required|email|unique:driver,email',
+            'password' => 'required|min:8',
+            'confirm_password' => 'required|same:password',
+            'phone_number' => 'required',
+            'gender' => 'required',
+            'profile_picture' => 'image|mimes:jpeg,png,jpg,gif|max:10240',
+        ]);
+
+        $email = $request->input('email');
+        $email = strtolower(trim($email));
+        $first_name = $request->input('first_name');
+        $first_name = trim($first_name);
+        $last_name = $request->input('last_name');
+        $last_name = trim($last_name);
+
+        $driver = new Driver();
+        $driver->first_name = $first_name;
+        $driver->last_name = $last_name;
+        $driver->email = $email;
+        $driver->password = Hash::make($request->input('password'));
+        $driver->phone_number = $request->input('phone_number');
+        $driver->gender = $request->input('gender');
+
+        if ($request->has('profile_picture')) {
+            $img_url = $this->uploadImage($request, 'profile_picture');
+            $driver->profile_picture = $img_url;
+        }
+
+        $driver->save();
+        Auth::guard('driver')->login($driver, true);
+        return redirect('/');
+    }
+
+    public function driverLogin(Request $request) {
+        Auth::guard('buyer')->logout();
+        Auth::guard('driver')->logout();
+        Auth::guard('restaurant')->logout();
+        $request->validate([
+            'email' => 'required|email',
+            'password' => 'required'
+        ]);
+
+        $email = $request->input('email');
+        $password = $request->input('password');
+        if ($request->has('remember')) {
+            $remember = 1;
+        }
+        else $remember = 0;
+
+        if (Auth::guard('driver')->attempt(['email' => $email, 'password' => $password], $remember)) {
+            $request->session()->regenerate();
+            return redirect('/');
+        }
+        else return redirect()->back()->withErrors(['unmatched' => 'Email and password do not match']);
+        // change needed
+        // else redirect('/signup');
+    }
+
     public function restaurantSignUp(Request $request) {
         Auth::guard('buyer')->logout();
+        Auth::guard('driver')->logout();
         Auth::guard('restaurant')->logout();
 
        $request->validate([
@@ -112,6 +180,7 @@ class AuthController extends Controller
 
     public function restaurantLogin(Request $request) {
         Auth::guard('buyer')->logout();
+        Auth::guard('driver')->logout();
         Auth::guard('restaurant')->logout();
         $request->validate([
             'email' => 'required|email',
@@ -129,11 +198,11 @@ class AuthController extends Controller
             $request->session()->regenerate();
             return redirect('/');
         }
-        // change needed
-        // else redirect('/login');
+        else return redirect('/login/restaurant')->with(['unmatched' => ['Email and password do not match']]);
     }
 
     public function logout(Request $request) {
+        Auth::guard('driver')->logout();
         Auth::guard('buyer')->logout();
         Auth::guard('restaurant')->logout();
         $request->session()->invalidate();

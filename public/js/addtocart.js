@@ -1,11 +1,7 @@
-
-
 const formatter = new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: 'USD',
 });
-
-const tick = `<img src="/images/check-mark.png" class="tick"/>`
 
 function addToCart(restaurantID, foodID) {
     const currentCart = getCookie('cart')
@@ -34,19 +30,23 @@ function addToCart(restaurantID, foodID) {
 
     foodObjects.push({id: foodID, quantity: 1});
 
-    const foods = document.querySelectorAll(".food-in-category")
-    foods.forEach(food => {
-        if (food.dataset.foodid == foodID) {
-            food.querySelector('.food_in_category_text.food_price').innerHTML += tick;
-        }
-    })
+    const foodElement = document.querySelector('#food' + foodID)
+    foodElement.classList.add('in-cart')
+    foodElement.onclick = null;
+
+    // const foods = document.querySelectorAll(".food-in-category")
+    // foods.forEach(food => {
+    //     if (food.dataset.foodid == foodID) {
+    //         food.querySelector('.food_in_category_text.food_price').innerHTML += tick;
+    //     }
+    // })
+
     const cartObj = {
         restaurantID: restaurantID,
         foodObjects: foodObjects
     }
 
     setCookie('cart', cartObj, 1);
-    // updateTotalPrice();
 
     // localStorage.setItem('cart', JSON.stringify(cartObj));
     console.log('added to cart')
@@ -69,25 +69,21 @@ function updateQuantity(foodID) {
     updateTotalPrice();
 }
 
+
 function updateTotalPrice() {
-    const rows = document.querySelectorAll('.cart-page-cart-row');
-    const totalPriceBox = document.querySelector('.cart-page-total-price');
-    const currentCart = JSON.parse(getCookie('cart'))
+    const allPriceBox = document.querySelectorAll('.price');
+    const allQuantityBox = document.querySelectorAll('.quantity');
+    const totalPriceBox = document.querySelector('#total-price');
 
     let total = 0
-    rows.forEach((row, index) => {
-        if (index == 0) return
-        let formattedPrice = row.querySelector('.cart-page-price').innerHTML;
-        let price = Number(formattedPrice.replace(/[^0-9.-]+/g,""));
-
-        let quantity = row.querySelector('.cart-page-quantity').value;
-
+    allPriceBox.forEach((priceBox, index) => {
+        const formattedPrice = priceBox.innerHTML;
+        const price = Number(formattedPrice.replace(/[^0-9.-]+/g,""));
+        const quantity = allQuantityBox[index].value;
         total += price * quantity;
     })
 
     totalPriceBox.innerHTML = formatter.format(total);
-
-    console.log(total);
 }
 
 function setCookie(name, value, days) {

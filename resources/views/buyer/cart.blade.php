@@ -1,71 +1,69 @@
 @extends('layout.master')
 
-@section('styles')
-    <link rel="stylesheet" href="/css/buyer.css">
-    <script type="text/javascript" src="/js/buyer.js"></script>
-@stop
-
 @section('pageTitle', 'Order Page')
 
 @section('content')
-    <h1>My Cart</h1>
-    @if ($restaurant == null)
-        <div class="empty-cart">
-            <h2>Your cart is empty</h2>
-        </div>
-    @else
-        <div class="cart-page">
-            <form action="/buyer/buyerCheckout" method="post" enctype="multipart/form-data">
-                @csrf
-                <div class="cart-page-restaurant">
-                    <img src="{{ $restaurant->logo }}" class="cart-page-logo" />
-                    <h3>{{ $restaurant->name }}</h3>
-                </div>
-                <div class="cart-items">
-                    <div class="cart-page-cart-row">
-                        <p>No.</p>
-                        <p>Name</p>
-                        <p>Quantity</p>
-                        <p>Unit Price</p>
-                    </div>
+    <div class="full-bg">
+        <nav>
+            <a href="/buyer"><h1>Paragon Eats</h1></a>
+            <div class="right">
+                <a href="/buyer/order">Order</a>
+                <a href="/buyer/history">History</a>
+                <a href="/buyer/cart">
+                    <img src="/grocery-store.png" alt="" />
+                </a>
+                <form action="/logout" method="POST">
+                    @csrf
+                    <button class="logout">Log Out</button>
+                </form>
+            </div>
+        </nav>
+        <main class="container" style="color:white">
+            <h1 style="text-align: center;margin-bottom: 2rem;">Cart</h1>
+            @if ($restaurant == null)
+                <h2>Cart is empty</h2>
+            @else
+                <ul class="cart">
+                    <li>No.</li>
+                    <li>Name</li>
+                    <li>Quantity</li>
+                    <li>Unit Price</li>
+                    <li />
                     @foreach ($foods as $food)
-                        <div class="cart-page-cart-row" id="item{{ $food->food_id }}">
-                            <p>{{ $loop->index + 1 }}</p>
-                            <p>{{ $food->name }}</p>
-                            <input type="number" value="{{ $food->quantity }}" min="1"
-                                onchange="updateQuantity({{ $food->food_id }})" class="cart-page-quantity" />
-                            <p class="cart-page-price">
-                                @php
-                                    $price = $food->price;
-                                    $price = number_format($price, 2, '.', ',');
-                                    echo '$' . $price;
-                                @endphp
-                            </p>
-                            <img src="/trash-bin.png" class="remove-from-cart"
-                                onclick="removeFromCart({{ $food->food_id }})" />
-                        </div>
-                    @endforeach
-                    <div class="cart-page-total">
-                        <p>Total:</p>
-                        <p> </p>
-                        <p class="cart-page-total-price">
+                        <li>{{ $loop->index + 1 }}</</li>
+                        <li>{{ $food->name }}</li>
+                        <li><input type="number" value="{{$food->quantity}}" min="1" onchange="updateQuantity({{ $food->food_id }})" class="quantity" /></li>
+                        <li id="food-{{$food->food_id}}-price" class="price">
                             @php
-                                $total = 0;
-                                foreach ($foods as $food) {
-                                    $total += $food->price * $food->quantity;
-                                }
-                                $total = number_format($total, 2, '.', ',');
-                                echo '$' . $total;
+                                $price = $food->price;
+                                $price = number_format($price, 2, '.', ',');
+                                echo '$' . $price;
                             @endphp
-                        </p>
-                    </div>
-                    <div class="cart-page-checkout-row">
-                        {{-- checkout button using a tag and button tag --}}
-                        <button class="cart-page-checkout" onclick="confirmOrder()" type="submit">Checkout</button>
-                    </div>
+                        </li>
+                        <li><a href="" onclick="removeFromCart({{$food->food_id}})" class="remove-item">Remove</a></li>
+                    @endforeach
+                    <li>Total:</li>
+                    <li id="total-price">
+                        @php
+                            $total = 0;
+                            foreach ($foods as $food) {
+                                $total += $food->price * $food->quantity;
+                            }
+                            $total = number_format($total, 2, '.', ',');
+                            echo '$' . $total;
+                        @endphp
+                    </li>
+                    <li />
+                </ul>
+                <form action="/buyer/buyerCheckout" method="post" enctype="multipart/form-data">
+                    @csrf
+                <div style="display: flex;justify-content: end">
+                    <button class="checkout">Check Out</button>
                 </div>
-            </form>
-        </div>
-        <script src="/js/addtocart.js" defer></script>
-    @endif
+                </form>
+            @endif
+        </main>
+    </div>
+    <script src="/js/addtocart.js" defer></script>
+
 @stop

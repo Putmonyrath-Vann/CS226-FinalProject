@@ -1,25 +1,33 @@
 @extends('layout.master')
 
-@section('styles')
-    <link rel="stylesheet" href="/css/buyer.css">
-@stop
-
-@section('pageTitle', 'Order Page')
+@section('pageTitle', 'Order')
 
 @section('content')
-    <h1>Restaurants</h1>
-    <div class="width-70">
-        {{-- {{$restaurants}} --}}
-        @foreach($restaurants as $restaurant)
-            <div class="restaurant-row">
-                <div class="logo">
-                    <img src="{{$restaurant->logo}}" />
-                </div>
-                <div class="restaurant-text">
-                    <p class="restaurant-name">{{$restaurant->name}}</p>
-                </div>
-                <a href="/buyer/order/{{$restaurant->restaurant_id}}" class="ml-auto"><button class="order-btn">Order Now</button></a>
+    <div class="full-bg">
+        <nav>
+            <a href="/buyer"><h1>Paragon Eats</h1></a>
+            <div class="right">
+                <a href="/buyer/order">Order</a>
+                <a href="/buyer/history">History</a>
+                <a href="/buyer/cart">
+                    <img src="/grocery-store.png" alt="" />
+                </a>
+                <form action="/logout" method="POST">
+                    @csrf
+                    <button class="logout">Log Out</button>
+                </form>
             </div>
-        @endforeach
+        </nav>
+        <main class="container">
+            <h1 style="color:white">Restaurants</h1>
+            <ul class="restaurant-list">
+                @foreach($restaurants as $restaurant)
+                    <a href="/buyer/order/{{$restaurant->restaurant_id}}">
+                        <img src={{$restaurant->logo}} alt="" />
+                        <h3>{{$restaurant->name}}</h3>
+                    </a>
+                @endforeach
+            </ul>
+        </main>
     </div>
 @stop

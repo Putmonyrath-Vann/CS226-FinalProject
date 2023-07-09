@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
-
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
 
@@ -125,21 +127,29 @@ class BuyerController extends Controller
             $total_price += $food->price * $foodObject->quantity;
         }
 
-        $order_id = DB::table('order')->insertGetId(['buyer_id' => $buyer_id,'restaurant_id' => $cart->restaurantID, 'total_price' => $total_price, 'created_at' => Carbon::now()]);
+        DB::beginTransaction();
+        try {
+            $order_id = DB::table('order')->insertGetId(['buyer_id' => $buyer_id,'restaurant_id' => $cart->restaurantID, 'total_price' => $total_price, 'created_at' => Carbon::now()]);
 
-        if (count($cart->foodObjects) > 0) {
-            foreach ($cart->foodObjects as $food) {
-                $order_info = DB::table('order_info')->insert([
-                    'order_id' => $order_id,
-                    'food_id' => $food->id,
-                    'quantity' => $food->quantity,
-                    'created_at' => Carbon::now()
-                ]);
+            if (count($cart->foodObjects) > 0) {
+                foreach ($cart->foodObjects as $food) {
+                    $order_info = DB::table('order_info')->insert([
+                        'order_id' => $order_id,
+                        'food_id' => $food->id,
+                        'quantity' => $food->quantity,
+                        'created_at' => Carbon::now()
+                    ]);
+                }
             }
+            DB::commit();
+            Cookie::queue(Cookie::forget('cart'));
+        }
+        catch (\Exception $e) {
+            DB::rollback();
+            // something went wrong
         }
 
-        Cookie::queue(Cookie::forget('cart'));
-        return redirect('/buyer/receipt/'.$order_id);
+        return redirect('/buyer/history');
     }
 
     public function getReceipt(Request $request, $id)
@@ -162,15 +172,115 @@ class BuyerController extends Controller
             $order->quantity = explode(',', $order->quantity);
         }
 
-        return view('buyer.history', ['history' => $history]);
+        // return view('buyer.history', ['orders' => []]);
+        return view('buyer.history', ['orders' => $history]);
     }
 
     public function getEditPage() {
         $buyer_id = Auth::guard('buyer')->user()->buyer_id;
-        $buyer = DB::table('buyer')->leftJoin('address', 'address.address_id', 'buyer.address_id')->where('buyer.buyer_id', $buyer_id)->select(['buyer.first_name', 'buyer.last_name', 'buyer.email', 'buyer.phone_number', 'buyer.profile_img', 'address.building_no', 'address.street_no', 'address.region_id', 'address.description'])->first();
+        $buyer = DB::table('buyer')->leftJoin('address', 'address.address_id', 'buyer.address_id')->where('buyer.buyer_id', $buyer_id)->select(['buyer.buyer_id', 'buyer.first_name', 'buyer.last_name', 'buyer.email', 'buyer.phone_number', 'buyer.profile_img', 'address.building_no', 'address.street_no', 'address.region_id', 'address.description'])->first();
 
         $regions = DB::table('region')->orderBy('region_name')->get();
 
         return view('buyer.edit', ['buyer' => $buyer, 'regions' => $regions]);
+    }
+
+    public function editProfile(Request $request) {
+        $buyer = Auth::guard('buyer')->user();
+        // dd($request);
+        $rules = [
+            'first_name' => 'required|string|max:30',
+            'last_name' => 'required|string|max:30',
+            'phone_number' => 'required',
+            'password' => 'nullable|required_with:confirm_assword|min:8',
+            'confirm_password' => 'nullable|required_with:password|same:password|min:8',
+            'building_no' => 'nullable|required_with:street_no,region,description|string|max:10',
+            'street_no' => 'nullable|required_with:building_no,region,description|string|max:10',
+            'region' => 'nullable|required_with:street_no,building_no,description|integer',
+            'description' => 'nullable|string|max:255'
+        ];
+
+        if ($buyer->email != $request->input('email')) {
+            $rules['email'] = 'required|email|unique:buyer,email';
+        }
+
+        $request->validate($rules);
+
+        $buyer_id = Auth::guard('buyer')->user()->buyer_id;
+        $first_name = $request->input('first_name');
+        $last_name = $request->input('last_name');
+        $phone_number = $request->input('phone_number');
+        $email = $request->input('email');
+
+        // if password is not empty, then update password
+        if ($request->input('password') != null) {
+            $password = Hash::make($request->input('password'));
+            DB::table('buyer')->where('buyer_id', $buyer_id)->update(['password' => $password]);
+        }
+
+        if ($request->hasFile('profile_picture')) {
+            $link = $this->uploadImage($request, 'profile_picture');
+            DB::table('buyer')->where('buyer_id', $buyer_id)->update(['profile_img' => $link]);
+        }
+
+        DB::table('buyer')->where('buyer_id', $buyer_id)->update([
+            'first_name' => $first_name,
+            'last_name' => $last_name,
+            'phone_number' => $phone_number,
+            'email' => $email,
+        ]);
+
+        $address_id = $buyer->address_id;
+        if (isset($address_id)) {
+            DB::table('address')->where('address_id', $address_id)->update([
+                'building_no' => $request->input('building_no'),
+                'street_no' => $request->input('street_no'),
+                'region_id' => $request->input('region'),
+                'description' => $request->input('description'),
+            ]);
+        }
+
+        else {
+            if ($request->input('building_no') != null) {
+                $address_id = DB::table('address')->insertGetId([
+                    'building_no' => $request->input('building_no'),
+                    'street_no' => $request->input('street_no'),
+                    'region_id' => $request->input('region'),
+                    'description' => $request->input('description'),
+                ]);
+                DB::table('buyer')->where('buyer_id', $buyer_id)->update(['address_id' => $address_id]);
+            }
+        }
+
+        return redirect()->back()->with('success', 'Profile updated successfully');
+
+    }
+
+    public function updateProfileImage(Request $request) {
+        $buyer_id = $request->input('buyer_id');
+        // return response()->json(['buyer_id' => $request->input(), 'profile_img' => $request->file('profile_img')]);
+
+        $request->validate([
+            'profile_img' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+        $profile_img_url = $this->uploadImage($request, 'profile_img');
+        DB::table('buyer')->where('buyer_id', $buyer_id)->update(['profile_img' => $profile_img_url]);
+        return response()->json(['img_url' => $profile_img_url]);
+    }
+
+    public function uploadImage(Request $request, string $fileName) {
+        $image = $request->file($fileName);
+        $client = new Client();
+        $response = $client->request('POST', 'https://api.imgur.com/3/image', [
+            'headers' => [
+                    'authorization' => 'Client-ID ' . env('imgur_client_id'),
+                    'content-type' => 'application/x-www-form-urlencoded',
+                ],
+            'form_params' => [
+                    'image' => base64_encode(file_get_contents($image))
+                ],
+            ]);
+        $img_link =  json_decode($response->getBody()->getContents())->data->link;
+        return $img_link;
     }
 }

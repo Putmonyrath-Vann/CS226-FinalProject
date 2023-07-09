@@ -20,11 +20,8 @@ class LoginPageCheck
         if (Auth::guard('buyer')->check()) {
             return redirect('/buyer');
         }
-        else if (Auth::guard('driver')->check()) {
-            return redirect('drivers');
-        }
         else if (Auth::guard('restaurant')->check()) {
-            return redirect('/');
+            return redirect('restaurant');
         }
         return $next($request);
     }

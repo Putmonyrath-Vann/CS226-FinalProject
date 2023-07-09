@@ -44,6 +44,10 @@ class Kernel extends HttpKernel
             'throttle:api',
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
         ],
+
+        'checkLogin' => [
+            \App\Http\Middleware\LoginPageCheck::class
+        ],
     ];
 
     /**
@@ -64,9 +68,9 @@ class Kernel extends HttpKernel
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
         'checkhome' => \App\Http\Middleware\HomePageCheck::class,
-        'checklogin' => \App\Http\Middleware\LoginPageCheck::class,
+        // 'checklogin' => \App\Http\Middleware\LoginPageCheck::class,
         'buyercheck' => \App\Http\Middleware\BuyerCheck::class,
-        'drivercheck' => \App\Http\Middleware\DriverCheck::class,
         'restaurantcheck' => \App\Http\Middleware\RestaurantCheck::class,
+        'redirectMiddleware' => \App\Http\Middleware\RedirectMiddleware::class,
     ];
 }

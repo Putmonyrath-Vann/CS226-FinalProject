@@ -18,7 +18,7 @@ class buyerCheck
     public function handle(Request $request, Closure $next)
     {
         if (!Auth::guard('buyer')->check()) {
-            return redirect('/login');
+            return redirect('/login/buyer');
         }
         return $next($request);
     }
